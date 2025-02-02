@@ -1,39 +1,49 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head>
-    <title>안녕하세요! : 다윈게시판</title>
-</head>
-<body>
-    <div class="top">
-        <div>
-            다윈게시판
+    <head>
+        <title>안녕하세요! : 다윈게시판</title>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script defer>
+            window.onload = async function () {
+                try {
+                    const response = await axios.get('http://localhost:3000/board', {
+                        params: { number: 1 },
+                    });
+
+                    const board = response.data;
+
+                    document.getElementById('author').value = board.author;
+                    document.getElementById('title').value = board.title;
+                    document.getElementById('content').value = board.content;
+                    document.getElementById('createdAt').value = new Date(board.createdAt).toLocaleString();
+                } catch (error) {
+                    console.error('게시글을 가져오는 중 오류가 발생했습니다.', error);
+                }
+            };
+        </script>
+    </head>
+    <body>
+        <div class="top">
+            <div>다윈게시판</div>
         </div>
-    </div>
-    <div class="center">
-        <div class="content">
-            <div class="title">안녕하세요!</div>
-            <div class="content__header">
-                <span class="author">정다윈</span>
-                <span class="createdat">2025.01.11 13:35</span>
-            </div>
-            <div class="content__body">
-                <div class="detail">
-                    처음 가입해요.
-                    잘 부탁드려요.
+        <div class="center">
+            <div class="content">
+                <div class="title" id="title"></div>
+                <div class="content__header">
+                    <span class="author" id="author"></span>
+                    <span class="createdAt" id="createdAt"></span>
                 </div>
-                
-            </div>
-            <div class="content__tail">
-                <button class="board_button">전체글</button>
-                <button class="update_button">수정</button>
-                <button class="delete_button">삭제</button>
-                <button class="create_button">글쓰기</button>
+                <div class="content__body">
+                    <div class="content" id="content"></div>
+                </div>
+                <div class="content__tail">
+                    <button class="board_button">전체글</button>
+                    <button class="update_button">수정</button>
+                    <button class="delete_button">삭제</button>
+                    <button class="create_button">글쓰기</button>
+                </div>
             </div>
         </div>
-        
-    </div>
-    <div class="bottom">
-        
-    </div>
-</body>
+        <div class="bottom"></div>
+    </body>
 </html>

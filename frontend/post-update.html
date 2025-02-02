@@ -1,35 +1,49 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head>
-    <title>글 수정하기 : 다윈게시판</title>
-</head>
-<body>
-    <div class="top">
-        <div>
-            다윈게시판
+    <head>
+        <title>글 수정하기 : 다윈게시판</title>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script defer>
+            window.onload = async function () {
+                try {
+                    const response = await axios.get('http://localhost:3000/board', {
+                        params: { number: 1 },
+                    });
+
+                    const board = response.data;
+
+                    document.getElementById('author').value = board.author;
+                    document.getElementById('title').value = board.title;
+                    document.getElementById('content').value = board.content;
+                } catch (error) {
+                    console.error('게시글을 가져오는 중 오류가 발생했습니다.', error);
+                }
+            };
+        </script>
+    </head>
+    <body>
+        <div class="top">
+            <div>다윈게시판</div>
         </div>
-    </div>
-    <div class="center">
-        <div class="center__title">글 수정하기</div>
-        <div class="content">
-            <div class="content__author">
-                <span>작성자</span>
-                <input type="text" value="정다윈">
-            </div>
-            <div class="title">
-                <textarea rows="1" cols="55" placeholder="제목을 입력하세요.">안녕하세요!</textarea>
-            </div>
-            <div class="content__body">
-                <textarea rows="20" cols="55" placeholder="본문을 입력하세요.">처음 가입해요. 잘 부탁드려요.</textarea>
-            </div>
-            <div class="content__tail">
-                <button class="board_button">취소</button>
-                <button class="write_button">수정</button>
+        <div class="center">
+            <div class="center__title">글 수정하기</div>
+            <div class="content">
+                <div class="content__author">
+                    <span>작성자</span>
+                    <input type="text" />
+                </div>
+                <div class="content__title">
+                    <textarea id="title" rows="1" cols="55" placeholder="제목을 입력하세요."></textarea>
+                </div>
+                <div class="content__body">
+                    <textarea id="content" rows="20" cols="55" placeholder="본문을 입력하세요."></textarea>
+                </div>
+                <div class="content__tail">
+                    <button class="board_button">취소</button>
+                    <button class="write_button">수정</button>
+                </div>
             </div>
         </div>
-        
-    </div>
-    <div class="bottom">
-    </div>
-</body>
+        <div class="bottom"></div>
+    </body>
 </html>

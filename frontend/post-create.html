@@ -1,36 +1,44 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head>
-    <title>글쓰기 : 다윈게시판</title>
-</head>
-<body>
-    <div class="top">
-        <div>
-            다윈게시판
+    <head>
+        <title>글쓰기 : 다윈게시판</title>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script>
+            const createBoard = function () {
+                const author = document.getElementById('author').value;
+                const title = document.getElementById('title').value;
+                const content = document.getElementById('content').value;
+                axios.post('http://localhost:3000/board', {
+                    author,
+                    title,
+                    content,
+                });
+            };
+        </script>
+    </head>
+    <body>
+        <div class="top">
+            <div>다윈게시판</div>
         </div>
-    </div>
-    <div class="center">
-        <div class="center__title">글쓰기</div>
-        <div class="content">
-            <div class="content__author">
-                <span>작성자</span>
-                <input type="text">
-            </div>
-            <div class="title">
-                <textarea rows="1" cols="55" placeholder="제목을 입력하세요."></textarea>
-            </div>
-            <div class="content__body">
-                <textarea rows="20" cols="55" placeholder="본문을 입력하세요."></textarea>
-            </div>
-            <div class="content__tail">
-                <button class="board_button">취소</button>
-                <button class="write_button">등록</button>
+        <div class="center">
+            <div class="center__title">글쓰기</div>
+            <div class="content">
+                <div class="content__author">
+                    <span>작성자</span>
+                    <input id="author" type="text" />
+                </div>
+                <div class="title">
+                    <textarea id="title" rows="1" cols="55" placeholder="제목을 입력하세요."></textarea>
+                </div>
+                <div class="content__body">
+                    <textarea id="content" rows="20" cols="55" placeholder="본문을 입력하세요."></textarea>
+                </div>
+                <div class="content__tail">
+                    <button class="board_button">취소</button>
+                    <button class="write_button" onclick="createBoard()">등록</button>
+                </div>
             </div>
         </div>
-        
-    </div>
-    <div class="bottom">
-        
-    </div>
-</body>
+        <div class="bottom"></div>
+    </body>
 </html>

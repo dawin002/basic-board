@@ -20,7 +20,7 @@
  *                   number:
  *                     type: int
  *                     example: 1
- *                   writer:
+ *                   author:
  *                     type: string
  *                     example: 철수
  *                   title:

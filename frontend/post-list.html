@@ -1,81 +1,107 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head>
-    <title>전체 게시글 : 다윈게시판</title>
-    <style>
-        th { border: 1px solid; }
-        td { border: 1px solid; text-align: center; }
-    </style>
-</head>
-<body>
-    <div class="top">
-        <div>
-            다윈게시판
-        </div>
-    </div>
-    <div class="center">
-        <div>
-            <span>전체 게시글</span>
-        </div>
-        <div class="contents">
-            <div class="contents__header">
-            </div>
-            <div class="contents__body">
-                <table style="border: 1px solid;">
-                    <colgroup>
-                        <col style="width: 10%;"/>
-                        <col/>
-                        <col style="width: 10%;"/>
-                        <col style="width: 10%;"/>
-                    </colgroup>
-                    <thead>
-                        <tr>
-                            <th>번호</th>
-                            <th>제목</th>
-                            <th>글쓴이</th>
-                            <th>작성일</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>2</td>
-                            <td style="text-align: left;">안녕하세요!</td>
-                            <td>정다윈</td>
-                            <td>2025.01.11</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td style="text-align: left;">술먹자</td>
-                            <td>이창훈</td>
-                            <td>2025.01.10</td>
-                        </tr>
-                    </tbody>
+    <head>
+        <title>전체 게시글 : 다윈게시판</title>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script defer>
+            window.onload = async function () {
+                try {
+                    // 백엔드에서 게시글 목록을 받아옴
+                    const response = await axios.get('http://localhost:3000/boards');
+                    const boards = response.data; // 받은 데이터를 boards 변수에 저장
 
-                </table>
-            </div>
+                    boards.sort((a, b) => b.number - a.number);
+
+                    // 게시글 데이터를 테이블에 추가하는 함수 호출
+                    addBoardsToTable(boards);
+                } catch (error) {
+                    console.error('게시글을 가져오는 중 오류가 발생했습니다.', error);
+                }
+            };
+
+            // boards 데이터를 받아와서 테이블에 추가하는 함수
+            function addBoardsToTable(boards) {
+                const tbody = document.querySelector('table tbody');
+
+                // 기존 테이블의 내용은 비우고, 새로 받아온 게시글로 채우기
+                tbody.innerHTML = '';
+
+                // boards 배열을 순회하면서 각 게시글에 대해 <tr>을 생성
+                boards.forEach((board) => {
+                    const row = document.createElement('tr');
+
+                    // 각 게시글의 정보를 <td>로 추가
+                    row.innerHTML = `
+            <td>${board.number}</td>
+            <td style="text-align: left">${board.title}</td>
+            <td>${board.author}</td>
+            <td>${new Date(board.createdAt).toLocaleDateString()}</td>
+          `;
+
+                    // 테이블에 새로운 행 추가
+                    tbody.appendChild(row);
+                });
+            }
+        </script>
+        <script defer></script>
+        <style>
+            th {
+                border: 1px solid;
+            }
+            td {
+                border: 1px solid;
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="top">
+            <div>다윈게시판</div>
         </div>
-        <div class="contents__tail">
-            <div class="contentspage">
-                <span>|&lt;</span>
-                <span>&lt;</span>
-                <span>1</span>
-                <span>2</span>
-                <span>3</span>
-                <span>4</span>
-                <span>5</span>
-                <span>&gt;</span>
-                <span>&gt;|</span>
-            </div>
+        <div class="center">
             <div>
-                <button class="create_button">글쓰기</button>
+                <span>전체 게시글</span>
             </div>
+            <div class="contents">
+                <div class="contents__header"></div>
+                <div class="contents__body">
+                    <table style="border: 1px solid">
+                        <colgroup>
+                            <col style="width: 10%" />
+                            <col />
+                            <col style="width: 10%" />
+                            <col style="width: 10%" />
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th>번호</th>
+                                <th>제목</th>
+                                <th>글쓴이</th>
+                                <th>작성일</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="contents__tail">
+                <div class="contentspage">
+                    <span>|&lt;</span>
+                    <span>&lt;</span>
+                    <span>1</span>
+                    <span>2</span>
+                    <span>3</span>
+                    <span>4</span>
+                    <span>5</span>
+                    <span>&gt;</span>
+                    <span>&gt;|</span>
+                </div>
+                <div>
+                    <button class="create_button">글쓰기</button>
+                </div>
+            </div>
+            <div></div>
         </div>
-        <div>
-
-        </div>
-    </div>
-    <div class="bottom">
-
-    </div>
-</body>
+        <div class="bottom"></div>
+    </body>
 </html>
