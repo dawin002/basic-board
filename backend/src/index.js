@@ -40,7 +40,7 @@ app.get('/boards', function (req, res) {
     const result = boards;
 
     // 요청한 데이터 응답하기
-    res.send(result);
+    res.status(200).send(result);
 });
 
 app.get('/board/:number', function (req, res) {
@@ -55,7 +55,7 @@ app.get('/board/:number', function (req, res) {
 
     // 요청한 데이터 응답하기
     if (board) {
-        res.send(board);
+        res.status(200).send(board);
     } else {
         res.status(404).send({ message: '게시글을 찾을 수 없습니다.' });
     }
@@ -64,10 +64,16 @@ app.get('/board/:number', function (req, res) {
 app.post('/board', function (req, res) {
     // 요청 확인하기
     console.log(req.body);
+    const board = req.body;
+
     // DB에 저장
+    boards.push(board);
 
     // DB 저장 결과 응답하기
-    res.send('posted');
+    res.status(201).send({
+        message: '게시글이 성공적으로 등록되었습니다.',
+        board: board, // 응답으로 저장된 게시글 데이터를 포함시킬 수 있습니다.
+    });
 });
 
 app.put('/board', function (req, res) {
