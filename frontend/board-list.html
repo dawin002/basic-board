@@ -11,6 +11,7 @@
                     const boards = response.data; // 받은 데이터를 boards 변수에 저장
 
                     boards.sort((a, b) => b.number - a.number);
+                    console.log('게시글 불러옴', boards);
 
                     // 게시글 데이터를 테이블에 추가하는 함수 호출
                     addBoardsToTable(boards);

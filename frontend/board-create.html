@@ -8,16 +8,17 @@
                 document.getElementById('write-button').addEventListener('click', createBoard);
             };
 
-            const createBoard = function () {
+            const createBoard = async function () {
                 try {
                     const author = document.getElementById('author').value;
                     const title = document.getElementById('title').value;
                     const content = document.getElementById('content').value;
-                    axios.post('http://localhost:3000/board', {
+                    const response = await axios.post('http://localhost:3000/board', {
                         author,
                         title,
                         content,
                     });
+                    console.log('게시글 등록 완료', response.data);
                 } catch (error) {
                     console.error('게시글을 등록하는 중 오류가 발생했습니다.', error);
                 }
@@ -43,7 +44,7 @@
                 </div>
                 <div class="content__tail">
                     <button class="board_button">취소</button>
-                    <button id="wirte-button" class="write_button">등록</button>
+                    <button id="write-button" class="write_button">등록</button>
                 </div>
             </div>
         </div>

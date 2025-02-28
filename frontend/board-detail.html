@@ -16,6 +16,8 @@
                     document.getElementById('title').value = board.title;
                     document.getElementById('content').value = board.content;
                     document.getElementById('createdAt').value = new Date(board.createdAt).toLocaleString();
+
+                    console.log('게시글 불러옴', response);
                 } catch (error) {
                     console.error('게시글을 가져오는 중 오류가 발생했습니다.', error);
                 }

@@ -16,6 +16,8 @@
                     document.getElementById('content').value = board.content;
 
                     document.getElementById('update-button').addEventListener('click', updateBoard);
+
+                    console.log('게시글 불러옴', board);
                 } catch (error) {
                     console.error('게시글을 가져오는 중 오류가 발생했습니다.', error);
                 }
@@ -36,12 +38,6 @@
                     } else {
                         console.log('수정된 내용이 없습니다.');
                     }
-
-                    axios.put('http://localhost:3000/board/1', {
-                        author,
-                        title,
-                        content,
-                    });
                 } catch (error) {
                     console.error('수정 중 오류 발생:', error);
                 }
