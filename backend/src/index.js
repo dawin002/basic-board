@@ -43,15 +43,22 @@ app.get('/boards', function (req, res) {
     res.send(result);
 });
 
-app.get('/board', function (req, res) {
+app.get('/board/:number', function (req, res) {
     // 요청 확인하기
-    console.log(req.body);
+    console.log(req.params);
+    console.log(req.body); // 뭐 나오는지 궁금해서 확인
+
+    const boardNumber = req.params.number;
 
     // DB에서 데이터 꺼내기
-    result = boards[req.body.number];
+    const board = boards.find((b) => b.number === parseInt(boardNumber));
 
     // 요청한 데이터 응답하기
-    res.send(result);
+    if (board) {
+        res.send(board);
+    } else {
+        res.status(404).send({ message: '게시글을 찾을 수 없습니다.' });
+    }
 });
 
 app.post('/board', function (req, res) {
