@@ -4,19 +4,46 @@
         <title>글 수정하기 : 다윈게시판</title>
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         <script defer>
+            let board = null;
+
             window.onload = async function () {
                 try {
-                    const response = await axios.get('http://localhost:3000/board', {
-                        params: { number: 1 },
-                    });
-
-                    const board = response.data;
+                    const response = await axios.get('http://localhost:3000/board/1');
+                    board = response.data;
 
                     document.getElementById('author').value = board.author;
                     document.getElementById('title').value = board.title;
                     document.getElementById('content').value = board.content;
+
+                    document.getElementById('update-button').addEventListener('click', updateBoard);
                 } catch (error) {
                     console.error('게시글을 가져오는 중 오류가 발생했습니다.', error);
+                }
+            };
+
+            const updateBoard = async function () {
+                try {
+                    const newTitle = document.getElementById('title').value;
+                    const newContent = document.getElementById('content').value;
+
+                    const updatedData = {};
+                    if (newTitle != board.title) updatedData.title = newTitle;
+                    if (newContent != board.content) updatedData.content = newContent;
+
+                    if (Object.keys(updatedData).length > 0) {
+                        await axios.patch('http://localhost:3000/board/1', updatedData);
+                        console.log('수정 완료:', updatedData);
+                    } else {
+                        console.log('수정된 내용이 없습니다.');
+                    }
+
+                    axios.put('http://localhost:3000/board/1', {
+                        author,
+                        title,
+                        content,
+                    });
+                } catch (error) {
+                    console.error('수정 중 오류 발생:', error);
                 }
             };
         </script>
@@ -40,7 +67,7 @@
                 </div>
                 <div class="content__tail">
                     <button class="board_button">취소</button>
-                    <button class="write_button">수정</button>
+                    <button id="update-button" class="update_button">수정</button>
                 </div>
             </div>
         </div>
