@@ -3,16 +3,24 @@
     <head>
         <title>글쓰기 : 다윈게시판</title>
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-        <script>
+        <script defer>
+            window.onload = function () {
+                document.getElementById('write-button').addEventListener('click', createBoard);
+            };
+
             const createBoard = function () {
-                const author = document.getElementById('author').value;
-                const title = document.getElementById('title').value;
-                const content = document.getElementById('content').value;
-                axios.post('http://localhost:3000/board', {
-                    author,
-                    title,
-                    content,
-                });
+                try {
+                    const author = document.getElementById('author').value;
+                    const title = document.getElementById('title').value;
+                    const content = document.getElementById('content').value;
+                    axios.post('http://localhost:3000/board', {
+                        author,
+                        title,
+                        content,
+                    });
+                } catch (error) {
+                    console.error('게시글을 등록하는 중 오류가 발생했습니다.', error);
+                }
             };
         </script>
     </head>
@@ -35,7 +43,7 @@
                 </div>
                 <div class="content__tail">
                     <button class="board_button">취소</button>
-                    <button class="write_button" onclick="createBoard()">등록</button>
+                    <button id="wirte-button" class="write_button">등록</button>
                 </div>
             </div>
         </div>
