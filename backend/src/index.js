@@ -48,10 +48,10 @@ app.get('/board/:number', function (req, res) {
     console.log(req.params);
     console.log(req.body); // 뭐 나오는지 궁금해서 확인
 
-    const boardNumber = req.params.number;
+    const boardNumber = parseInt(req.params.number);
 
     // DB에서 데이터 꺼내기
-    const board = boards.find((b) => b.number === parseInt(boardNumber));
+    const board = boards.find((b) => b.number === boardNumber);
 
     // 요청한 데이터 응답하기
     if (board) {
@@ -60,6 +60,10 @@ app.get('/board/:number', function (req, res) {
         res.status(404).send({ message: '게시글을 찾을 수 없습니다.' });
     }
 });
+
+////////////////////////////////////////////////////////
+////////// 포스트, 풋, 딜리트 응답 부분 보완하기 (상태코드)
+////////// 그리고 나서 모든 api 내에 try catch 문 넣는 것 고려하기
 
 app.post('/board', function (req, res) {
     // 요청 확인하기
@@ -72,17 +76,34 @@ app.post('/board', function (req, res) {
     // DB 저장 결과 응답하기
     res.status(201).send({
         message: '게시글이 성공적으로 등록되었습니다.',
-        board: board, // 응답으로 저장된 게시글 데이터를 포함시킬 수 있습니다.
+        board: board,
     });
 });
 
-app.put('/board', function (req, res) {
+app.patch('/board/:number', function (req, res) {
     // 요청 확인하기
+    console.log(req.params);
+    console.log(req.body);
+
+    const boardNumber = parseInt(req.params.number);
+    const boardIndex = boards.findIndex((b) => b.number === boardNumber);
+
+    if (boardIndex === -1) {
+        return res.status(404).send({ message: '게시글을 찾을 수 없습니다.' });
+    }
+
+    const existingBoard = boards[boardIndex];
+
+    const updatedBoard = { ...existingBoard, ...req.body };
 
     // DB에 수정
+    boards[boardIndex] = updatedBoard;
 
     // DB 수정 결과 응답
-    res.send('updated');
+    res.status(200).send({
+        message: '게시글이 성공적으로 수정되었습니다.',
+        board: updatedBoard,
+    });
 });
 
 app.delete('/board', function (req, res) {
@@ -91,7 +112,7 @@ app.delete('/board', function (req, res) {
     // DB에서 삭제 처리(가짜 삭제)
 
     // DB 삭제 결과 응답
-    res.send('deleted');
+    res.status(204).send('deleted');
 });
 
 app.listen(3000);
