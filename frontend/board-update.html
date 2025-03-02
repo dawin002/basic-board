@@ -33,8 +33,11 @@
                     if (newContent != board.content) updatedData.content = newContent;
 
                     if (Object.keys(updatedData).length > 0) {
-                        await axios.patch('http://localhost:3000/board/1', updatedData);
-                        console.log('수정 완료:', updatedData);
+                        const response = await axios.patch('http://localhost:3000/board/1', updatedData);
+
+                        board = response.data.board;
+
+                        console.log(response.data.message, board);
                     } else {
                         console.log('수정된 내용이 없습니다.');
                     }
