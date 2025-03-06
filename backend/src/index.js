@@ -38,13 +38,18 @@ const boards = [
 ];
 
 app.get('/boards', function (req, res) {
-    // DB에서 데이터 꺼내오기
-    const result = boards;
+    try {
+        // DB에서 데이터 꺼내오기
+        const result = boards;
 
-    console.log(result);
+        console.log(result);
 
-    // 요청한 데이터 응답하기
-    res.status(200).send(result);
+        // 요청한 데이터 응답하기
+        res.status(200).send(result);
+    } catch (error) {
+        console.error('게시글을 가져오는 중 오류 발생', error);
+        res.status(500).send({ message: '게시글을 가져오는 중 오류가 발생했습니다.' });
+    }
 });
 
 app.get('/board/:number', function (req, res) {
