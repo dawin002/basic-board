@@ -1,6 +1,7 @@
 import express from 'express';
 import swaggerUi from 'swagger-ui-express';
 import swaggerJsdoc from 'swagger-jsdoc';
+import cors from 'cors';
 
 import { options } from '../swagger/config.js';
 
@@ -9,6 +10,7 @@ const swaggerSpec = swaggerJsdoc(options);
 
 app.use(express.json());
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use(cors());
 
 // 더미 데이터
 const boards = [
