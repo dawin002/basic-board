@@ -66,19 +66,32 @@ app.get('/board/:number', function (req, res) {
 ////////////////////////////////////////////////////////
 ////////// 응답 상태코드 고려해서 잘 받게 프론트 수정
 ////////// 그리고 나서 모든 api 내에 try catch 문 넣는 것 고려하기
+////////// 화면 전환 구현
 
 app.post('/board', function (req, res) {
     // 요청 확인하기
     console.log(req.body);
-    const board = req.body;
+    const { author, title, content } = req.body;
 
-    // DB에 저장
-    boards.push(board);
+    // 현재 boards 배열에서 가장 큰 number 값 찾기
+    const maxNumber = boards.length > 0 ? Math.max(...boards.map((board) => board.number)) : 0;
+    const newNumber = maxNumber + 1;
+
+    // 새로운 게시글 객체 생성
+    const newBoard = {
+        number: newNumber,
+        author,
+        title,
+        content,
+        createdAt: new Date(),
+    };
+
+    boards.push(newBoard);
 
     // DB 저장 결과 응답하기
     res.status(201).send({
         message: '게시글이 성공적으로 등록되었습니다.',
-        board: board,
+        board: newBoard,
     });
 });
 
