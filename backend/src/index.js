@@ -50,27 +50,32 @@ app.get('/boards', function (req, res) {
         // 요청한 데이터 응답하기
         res.status(200).send(result);
     } catch (error) {
-        console.error('게시글을 가져오는 중 오류 발생', error);
-        res.status(500).send({ message: '게시글을 가져오는 중 오류가 발생했습니다.' });
+        console.error('게시글을 가져올 수 없습니다.', error);
+        res.status(500).send({ message: '게시글을 가져올 수 없습니다.' });
     }
 });
 
 app.get('/board/:number', function (req, res) {
-    // 요청 확인하기
-    console.log(req.params);
+    try {
+        // 요청 확인하기
+        console.log(req.params);
 
-    const boardNumber = parseInt(req.params.number);
+        const boardNumber = parseInt(req.params.number);
 
-    // DB에서 데이터 꺼내기
-    const board = boards.find((b) => b.number === boardNumber);
+        // DB에서 데이터 꺼내기
+        const board = boards.find((b) => b.number === boardNumber);
 
-    // 요청한 데이터 응답하기
-    if (board) {
-        console.log(board);
-        res.status(200).send(board);
-    } else {
-        console.log('게시글을 찾을 수 없습니다.');
-        res.status(404).send({ message: '게시글을 찾을 수 없습니다.' });
+        // 요청한 데이터 응답하기
+        if (board) {
+            console.log(board);
+            res.status(200).send(board);
+        } else {
+            console.log('게시글을 찾을 수 없습니다.');
+            res.status(404).send({ message: '게시글을 찾을 수 없습니다.' });
+        }
+    } catch (error) {
+        console.error('게시글을 가져올 수 없습니다.', error);
+        res.status(500).send({ message: '게시글을 가져올 수 없습니다.' });
     }
 });
 
