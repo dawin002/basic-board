@@ -13,14 +13,24 @@
                     const author = document.getElementById('author').value;
                     const title = document.getElementById('title').value;
                     const content = document.getElementById('content').value;
+
                     const response = await axios.post('http://localhost:3000/board', {
                         author,
                         title,
                         content,
                     });
-                    console.log(response.data.message, response.data.board);
+
+                    if (response.status === 201) {
+                        console.log(response.data.message, response.data.board);
+                    }
                 } catch (error) {
-                    console.error('게시글을 등록하는 중 오류가 발생했습니다.', error);
+                    if (error.response && error.response.status === 500) {
+                        console.error('서버 내부 오류', error.response.data.message);
+                    } else if (error.request) {
+                        console.error('서버 응답 없음');
+                    } else {
+                        console.error('요청 설정 오류:', error.message);
+                    }
                 }
             };
         </script>

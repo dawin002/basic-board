@@ -42,9 +42,6 @@ app.get('/boards', function (req, res) {
         // DB에서 데이터 꺼내오기
         const result = [...boards];
 
-        // 일부러 에러 발생
-        result = null;
-
         console.log(result);
 
         // 요청한 데이터 응답하기
@@ -81,6 +78,7 @@ app.get('/board/:number', function (req, res) {
 
 ////////////////////////////////////////////////////////
 ////////// 그리고 나서 모든 api 내에 try catch 문 넣는 것 고려하기
+////////// 빈 글(작성자, 제목, 내용) 예외 처리 - 글쓰기, 수정하기
 ////////// 화면 전환 구현
 
 app.post('/board', function (req, res) {
@@ -104,14 +102,15 @@ app.post('/board', function (req, res) {
 
         boards.push(newBoard);
 
+        console.log(newBoard);
         // DB 저장 결과 응답하기
         res.status(201).send({
             message: '게시글이 성공적으로 등록되었습니다.',
             board: newBoard,
         });
     } catch (error) {
-        console.error('게시글을 가져올 수 없습니다.', error);
-        res.status(500).send({ message: '게시글을 가져올 수 없습니다.' });
+        console.error('게시글을 등록하는 중 오류가 발생했습니다.', error);
+        res.status(500).send({ message: '게시글을 등록하는 중 오류가 발생했습니다.' });
     }
 });
 
