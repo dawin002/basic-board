@@ -40,7 +40,10 @@ const boards = [
 app.get('/boards', function (req, res) {
     try {
         // DB에서 데이터 꺼내오기
-        const result = boards;
+        const result = [...boards];
+
+        // 일부러 에러 발생
+        result = null;
 
         console.log(result);
 
