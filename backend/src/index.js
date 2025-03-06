@@ -12,6 +12,10 @@ app.use(express.json());
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use(cors());
 
+////////////////////////////////////////////////////////
+////////// 빈 글(작성자, 제목, 내용) 예외 처리 - 글쓰기, 수정하기
+////////// 화면 전환 구현
+
 // 더미 데이터
 const boards = [
     {
@@ -76,11 +80,6 @@ app.get('/board/:number', function (req, res) {
     }
 });
 
-////////////////////////////////////////////////////////
-////////// 그리고 나서 모든 api 내에 try catch 문 넣는 것 고려하기
-////////// 빈 글(작성자, 제목, 내용) 예외 처리 - 글쓰기, 수정하기
-////////// 화면 전환 구현
-
 app.post('/board', function (req, res) {
     try {
         // 요청 확인하기
@@ -115,30 +114,35 @@ app.post('/board', function (req, res) {
 });
 
 app.patch('/board/:number', function (req, res) {
-    // 요청 확인하기
-    console.log(req.params);
-    console.log(req.body);
+    try {
+        // 요청 확인하기
+        console.log(req.params);
+        console.log(req.body);
 
-    const boardNumber = parseInt(req.params.number);
-    const boardIndex = boards.findIndex((b) => b.number === boardNumber);
+        const boardNumber = parseInt(req.params.number);
+        const boardIndex = boards.findIndex((b) => b.number === boardNumber);
 
-    if (boardIndex === -1) {
-        return res.status(404).send({ message: '게시글을 찾을 수 없습니다.' });
+        if (boardIndex === -1) {
+            return res.status(404).send({ message: '게시글을 찾을 수 없습니다.' });
+        }
+
+        const existingBoard = boards[boardIndex];
+
+        const updatedBoard = { ...existingBoard, ...req.body };
+
+        // DB에 수정
+        boards[boardIndex] = updatedBoard;
+
+        console.log('게시글이 성공적으로 수정되었습니다.', updatedBoard);
+        // DB 수정 결과 응답
+        res.status(200).send({
+            message: '게시글이 성공적으로 수정되었습니다.',
+            board: updatedBoard,
+        });
+    } catch (error) {
+        console.error('게시글을 수정하는 중 오류가 발생했습니다.', error);
+        res.status(500).send({ message: '게시글을 수정하는 중 오류가 발생했습니다.' });
     }
-
-    const existingBoard = boards[boardIndex];
-
-    const updatedBoard = { ...existingBoard, ...req.body };
-
-    // DB에 수정
-    boards[boardIndex] = updatedBoard;
-
-    console.log('게시글이 성공적으로 수정되었습니다.', updatedBoard);
-    // DB 수정 결과 응답
-    res.status(200).send({
-        message: '게시글이 성공적으로 수정되었습니다.',
-        board: updatedBoard,
-    });
 });
 
 app.delete('/board', function (req, res) {
