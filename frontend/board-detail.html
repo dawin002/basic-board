@@ -6,23 +6,22 @@
         <script defer>
             window.onload = async function () {
                 try {
-                    const response = await axios.get('http://localhost:3000/board', {
-                        params: { number: 1 },
-                    });
+                    const boardNumber = 1;
+                    const response = await axios.get(`http://localhost:3000/board/${boardNumber}`);
 
                     if (response.status === 200) {
                         const board = response.data;
 
-                        document.getElementById('author').value = board.author;
-                        document.getElementById('title').value = board.title;
-                        document.getElementById('content').value = board.content;
-                        document.getElementById('createdAt').value = new Date(board.createdAt).toLocaleString();
+                        document.getElementById('author').textContent = board.author;
+                        document.getElementById('title').textContent = board.title;
+                        document.getElementById('content').textContent = board.content;
+                        document.getElementById('createdAt').textContent = new Date(board.createdAt).toLocaleString();
 
                         console.log('게시글 불러옴', board);
                     }
                 } catch (error) {
                     if (error.response && error.response.status === 404) {
-                        console.log('게시글을 찾을 수 없습니다.');
+                        console.log(response.data.message);
                     } else {
                         console.error('게시글을 가져오는 중 오류가 발생했습니다.', error);
                     }

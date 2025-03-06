@@ -41,6 +41,8 @@ app.get('/boards', function (req, res) {
     // DB에서 데이터 꺼내오기
     const result = boards;
 
+    console.log(result);
+
     // 요청한 데이터 응답하기
     res.status(200).send(result);
 });
@@ -48,7 +50,6 @@ app.get('/boards', function (req, res) {
 app.get('/board/:number', function (req, res) {
     // 요청 확인하기
     console.log(req.params);
-    console.log(req.body); // 뭐 나오는지 궁금해서 확인
 
     const boardNumber = parseInt(req.params.number);
 
@@ -57,8 +58,10 @@ app.get('/board/:number', function (req, res) {
 
     // 요청한 데이터 응답하기
     if (board) {
+        console.log(board);
         res.status(200).send(board);
     } else {
+        console.log('게시글을 찾을 수 없습니다.');
         res.status(404).send({ message: '게시글을 찾을 수 없습니다.' });
     }
 });
