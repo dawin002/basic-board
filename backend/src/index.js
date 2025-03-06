@@ -117,6 +117,7 @@ app.patch('/board/:number', function (req, res) {
     // DB에 수정
     boards[boardIndex] = updatedBoard;
 
+    console.log('게시글이 성공적으로 수정되었습니다.', updatedBoard);
     // DB 수정 결과 응답
     res.status(200).send({
         message: '게시글이 성공적으로 수정되었습니다.',
