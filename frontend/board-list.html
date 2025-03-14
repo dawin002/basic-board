@@ -46,7 +46,11 @@
                     // 각 게시글의 정보를 <td>로 추가
                     row.innerHTML = `
             <td>${board.number}</td>
-            <td style="text-align: left">${board.title}</td>
+            <td style="text-align: left">
+                <a href="board-detail.html?number=${board.number}" style="text-decoration: none; color: black;">
+                    ${board.title}
+                <a/>
+            </td>
             <td>${board.author}</td>
             <td>${new Date(board.createdAt).toLocaleDateString()}</td>
           `;

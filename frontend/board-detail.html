@@ -6,7 +6,14 @@
         <script defer>
             window.onload = async function () {
                 try {
-                    const boardNumber = 1;
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const boardNumber = urlParams.get('number');
+
+                    if (!boardNumber) {
+                        console.error('게시글 번호가 제공되지 않았습니다.');
+                        return;
+                    }
+
                     const response = await axios.get(`http://localhost:3000/board/${boardNumber}`);
 
                     if (response.status === 200) {
