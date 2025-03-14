@@ -140,7 +140,18 @@ app.patch('/board/:number', function (req, res) {
 
         const existingBoard = boards[boardIndex];
 
-        const updatedBoard = { ...existingBoard, ...req.body };
+        const title = req.body.title !== undefined ? req.body.title.trim() : existingBoard.title;
+        const content = req.body.content !== undefined ? req.body.content.trim() : existingBoard.content;
+
+        if (!title) {
+            return res.status(400).send({ message: '제목을 입력해야 합니다.' });
+        }
+
+        if (!content) {
+            return res.status(400).send({ message: '본문을 입력해야 합니다.' });
+        }
+
+        const updatedBoard = { ...existingBoard, title, content };
 
         // DB에 수정
         boards[boardIndex] = updatedBoard;
