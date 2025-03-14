@@ -86,6 +86,18 @@ app.post('/board', function (req, res) {
         console.log(req.body);
         const { author, title, content } = req.body;
 
+        if (!author.trim()) {
+            return res.status(400).send({ message: '작성자를 입력해야 합니다.' });
+        }
+
+        if (!title.trim()) {
+            return res.status(400).send({ message: '제목을 입력해야 합니다.' });
+        }
+
+        if (!content.trim()) {
+            return res.status(400).send({ message: '본문을 입력해야 합니다.' });
+        }
+
         // 현재 boards 배열에서 가장 큰 number 값 찾기
         const maxNumber = boards.length > 0 ? Math.max(...boards.map((board) => board.number)) : 0;
         const newNumber = maxNumber + 1;
