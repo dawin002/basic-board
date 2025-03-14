@@ -42,6 +42,16 @@
                     const newTitle = document.getElementById('title').value;
                     const newContent = document.getElementById('content').value;
 
+                    if (!newTitle.trim()) {
+                        alert('제목을 입력해주세요.');
+                        return;
+                    }
+
+                    if (!newContent.trim()) {
+                        alert('본문을 입력해주세요.');
+                        return;
+                    }
+
                     const updatedData = {};
                     if (newTitle != board.title) updatedData.title = newTitle;
                     if (newContent != board.content) updatedData.content = newContent;
