@@ -14,6 +14,21 @@
                     const title = document.getElementById('title').value;
                     const content = document.getElementById('content').value;
 
+                    if (!author.trim()) {
+                        alert('작성자를 입력해주세요.');
+                        return;
+                    }
+
+                    if (!title.trim()) {
+                        alert('제목을 입력해주세요.');
+                        return;
+                    }
+
+                    if (!content.trim()) {
+                        alert('본문을 입력해주세요.');
+                        return;
+                    }
+
                     const response = await axios.post('http://localhost:3000/board', {
                         author,
                         title,
