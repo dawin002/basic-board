@@ -71,7 +71,7 @@
 
                         console.log(response.data.message, board);
 
-                        window.location.href = `board-detail.html?number=${boardNumber}`;
+                        moveToDetail();
                     } else {
                         console.log('수정된 내용이 없습니다.');
                     }
@@ -88,6 +88,10 @@
                         console.error('요청 설정 오류:', error.message);
                     }
                 }
+            };
+
+            const moveToDetail = function () {
+                window.location.href = `board-detail.html?number=${boardNumber}`;
             };
         </script>
     </head>
@@ -109,9 +113,7 @@
                     <textarea id="content" rows="20" cols="55" placeholder="본문을 입력하세요."></textarea>
                 </div>
                 <div class="content__tail">
-                    <button class="board_button" onclick="location.href = `board-detail.html?number=${boardNumber}`">
-                        취소
-                    </button>
+                    <button class="board_button" onclick="moveToDetail()">취소</button>
                     <button id="update-button" class="update_button">수정</button>
                 </div>
             </div>

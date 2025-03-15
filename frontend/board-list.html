@@ -45,22 +45,25 @@
 
                     // 각 게시글의 정보를 <td>로 추가
                     row.innerHTML = `
-            <td>${board.number}</td>
-            <td style="text-align: left">
-                <a href="board-detail.html?number=${board.number}" style="text-decoration: none; color: black;">
-                    ${board.title}
-                <a/>
-            </td>
-            <td>${board.author}</td>
-            <td>${new Date(board.createdAt).toLocaleDateString()}</td>
-          `;
+              <td>${board.number}</td>
+              <td style="text-align: left">
+                  <a href="board-detail.html?number=${board.number}" style="text-decoration: none; color: black;">
+                      ${board.title}
+                  <a/>
+              </td>
+              <td>${board.author}</td>
+              <td>${new Date(board.createdAt).toLocaleDateString()}</td>
+            `;
 
                     // 테이블에 새로운 행 추가
                     tbody.appendChild(row);
                 });
             }
+
+            const moveToCreate = function () {
+                window.location.href = 'board-create.html';
+            };
         </script>
-        <script defer></script>
         <style>
             th {
                 border: 1px solid;
@@ -114,7 +117,7 @@
                     <span>&gt;|</span>
                 </div>
                 <div>
-                    <button class="create_button" onclick="location.href='board-create.html'">글쓰기</button>
+                    <button class="create_button" onclick="moveToCreate()">글쓰기</button>
                 </div>
             </div>
             <div></div>

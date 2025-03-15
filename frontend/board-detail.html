@@ -50,10 +50,17 @@
                 }
             };
 
-            // const updateBoard = function () {
-            //     console.log(boardNumber);
-            //     return (location.href = `board-update.html?number=${boardNumber}`);
-            // };
+            const moveToList = function () {
+                window.location.href = 'board-list.html';
+            };
+
+            const moveToUpdate = function () {
+                window.location.href = `board-update.html?number=${boardNumber}`;
+            };
+
+            const moveToCreate = function () {
+                window.location.href = 'board-create.html';
+            };
         </script>
     </head>
     <body>
@@ -71,12 +78,10 @@
                     <div class="content" id="content"></div>
                 </div>
                 <div class="content__tail">
-                    <button class="board_button" onclick="location.href='board-list.html'">전체글</button>
-                    <button class="update_button" onclick="location.href = `board-update.html?number=${boardNumber}`">
-                        수정
-                    </button>
+                    <button class="board_button" onclick="moveToList()">전체글</button>
+                    <button class="update_button" onclick="moveToUpdate()">수정</button>
                     <button class="delete_button">삭제</button>
-                    <button class="create_button" onclick="location.href='board-create.html'">글쓰기</button>
+                    <button class="create_button" onclick="moveToCreate()">글쓰기</button>
                 </div>
             </div>
         </div>

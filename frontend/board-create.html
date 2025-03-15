@@ -39,7 +39,10 @@
                         console.log(response.data.message, response.data.board);
                     }
 
-                    window.location.href = 'board-list.html';
+                    console.log(response.data);
+
+                    const boardNumber = response.data.board.number;
+                    moveToDetail(boardNumber);
                 } catch (error) {
                     if (error.response) {
                         if (error.response.status === 500) {
@@ -55,6 +58,14 @@
                         console.error('요청 설정 오류:', error.message);
                     }
                 }
+            };
+
+            const moveToList = function () {
+                window.location.href = 'board-list.html';
+            };
+
+            const moveToDetail = function (boardNumber) {
+                window.location.href = `board-detail.html?number=${boardNumber}`;
             };
         </script>
     </head>
@@ -76,7 +87,7 @@
                     <textarea id="content" rows="20" cols="55" placeholder="본문을 입력하세요."></textarea>
                 </div>
                 <div class="content__tail">
-                    <button class="board_button" onclick="location.href='board-list.html'">취소</button>
+                    <button class="board_button" onclick="moveToList()">취소</button>
                     <button id="write-button" class="write_button">등록</button>
                 </div>
             </div>
