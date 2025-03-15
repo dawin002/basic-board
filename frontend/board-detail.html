@@ -4,10 +4,14 @@
         <title>안녕하세요! : 다윈게시판</title>
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         <script defer>
+            let boardNumber;
+
             window.onload = async function () {
                 try {
                     const urlParams = new URLSearchParams(window.location.search);
-                    const boardNumber = urlParams.get('number');
+                    boardNumber = urlParams.get('number');
+
+                    console.log(boardNumber);
 
                     if (!boardNumber) {
                         console.error('게시글 번호가 제공되지 않았습니다.');
@@ -45,6 +49,11 @@
                     }
                 }
             };
+
+            // const updateBoard = function () {
+            //     console.log(boardNumber);
+            //     return (location.href = `board-update.html?number=${boardNumber}`);
+            // };
         </script>
     </head>
     <body>
@@ -62,10 +71,12 @@
                     <div class="content" id="content"></div>
                 </div>
                 <div class="content__tail">
-                    <button class="board_button">전체글</button>
-                    <button class="update_button">수정</button>
+                    <button class="board_button" onclick="location.href='board-list.html'">전체글</button>
+                    <button class="update_button" onclick="location.href = `board-update.html?number=${boardNumber}`">
+                        수정
+                    </button>
                     <button class="delete_button">삭제</button>
-                    <button class="create_button">글쓰기</button>
+                    <button class="create_button" onclick="location.href='board-create.html'">글쓰기</button>
                 </div>
             </div>
         </div>

@@ -4,15 +4,21 @@
         <title>글 수정하기 : 다윈게시판</title>
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         <script defer>
-            let board = null;
+            let boardNumber;
 
             window.onload = async function () {
                 try {
-                    const boardNumber = 1;
+                    const urlParams = new URLSearchParams(window.location.search);
+                    boardNumber = urlParams.get('number');
+
+                    if (!boardNumber) {
+                        console.error('게시글 번호가 제공되지 않았습니다.');
+                        return;
+                    }
+
                     const response = await axios.get(`http://localhost:3000/board/${boardNumber}`);
                     board = response.data;
 
-                    console.log(board.author);
                     document.getElementById('author').textContent = board.author;
                     document.getElementById('title').value = board.title;
                     document.getElementById('content').value = board.content;
@@ -42,6 +48,8 @@
                     const newTitle = document.getElementById('title').value;
                     const newContent = document.getElementById('content').value;
 
+                    console.log(newTitle, newContent);
+
                     if (!newTitle.trim()) {
                         alert('제목을 입력해주세요.');
                         return;
@@ -57,11 +65,13 @@
                     if (newContent != board.content) updatedData.content = newContent;
 
                     if (Object.keys(updatedData).length > 0) {
-                        const response = await axios.patch('http://localhost:3000/board/1', updatedData);
+                        const response = await axios.patch(`http://localhost:3000/board/${boardNumber}`, updatedData);
 
                         board = response.data.board;
 
                         console.log(response.data.message, board);
+
+                        window.location.href = `board-detail.html?number=${boardNumber}`;
                     } else {
                         console.log('수정된 내용이 없습니다.');
                     }
@@ -99,7 +109,9 @@
                     <textarea id="content" rows="20" cols="55" placeholder="본문을 입력하세요."></textarea>
                 </div>
                 <div class="content__tail">
-                    <button class="board_button">취소</button>
+                    <button class="board_button" onclick="location.href = `board-detail.html?number=${boardNumber}`">
+                        취소
+                    </button>
                     <button id="update-button" class="update_button">수정</button>
                 </div>
             </div>

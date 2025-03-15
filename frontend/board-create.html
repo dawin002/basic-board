@@ -38,6 +38,8 @@
                     if (response.status === 201) {
                         console.log(response.data.message, response.data.board);
                     }
+
+                    window.location.href = 'board-list.html';
                 } catch (error) {
                     if (error.response) {
                         if (error.response.status === 500) {
@@ -74,7 +76,7 @@
                     <textarea id="content" rows="20" cols="55" placeholder="본문을 입력하세요."></textarea>
                 </div>
                 <div class="content__tail">
-                    <button class="board_button">취소</button>
+                    <button class="board_button" onclick="location.href='board-list.html'">취소</button>
                     <button id="write-button" class="write_button">등록</button>
                 </div>
             </div>
