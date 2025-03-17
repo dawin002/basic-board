@@ -62,22 +62,27 @@
                 window.location.href = 'board-create.html';
             };
         </script>
+        <style>
+            .content {
+                white-space: pre-wrap;
+            }
+        </style>
     </head>
     <body>
         <div class="top">
             <div>다윈게시판</div>
         </div>
         <div class="center">
-            <div class="content">
+            <div class="board-container">
                 <div class="title" id="title"></div>
-                <div class="content__header">
+                <div class="board-container__header">
                     <span class="author" id="author"></span>
                     <span class="createdAt" id="createdAt"></span>
                 </div>
-                <div class="content__body">
+                <div class="board-container__body">
                     <div class="content" id="content"></div>
                 </div>
-                <div class="content__tail">
+                <div class="board-container__tail">
                     <button class="board_button" onclick="moveToList()">전체글</button>
                     <button class="update_button" onclick="moveToUpdate()">수정</button>
                     <button class="delete_button">삭제</button>
