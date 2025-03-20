@@ -24,28 +24,39 @@ const boards = [
         author: '다윈',
         title: '안녕하세요!',
         content: '최초의 게시글입니다.',
-        createdAt: new Date('2025-01-01T09:30:00+09:00'),
+        createdAt: new Date('2025-03-01T09:30:00+09:00'),
+        deletedAt: null,
     },
     {
         number: 2,
         author: '창훈',
         title: '다윈아 뭐하니!',
         content: '다윈아 뭐해! 술먹자!',
-        createdAt: new Date('2025-01-02T19:00:00+09:00'),
+        createdAt: new Date('2025-03-02T19:00:00+09:00'),
+        deletedAt: null,
     },
     {
         number: 3,
         author: '수지',
         title: '나도 껴줘',
         content: '술 먹을 거면 나도 껴주라!',
-        createdAt: new Date('2025-01-02T20:30:00+09:00'),
+        createdAt: new Date('2025-03-02T20:30:00+09:00'),
+        deletedAt: null,
+    },
+    {
+        number: 4,
+        author: '삭제',
+        title: '삭제된 글',
+        content: '이건 삭제된 글이에요',
+        createdAt: new Date('2025-03-20T20:30:00+09:00'),
+        deletedAt: null,
     },
 ];
 
 app.get('/boards', function (req, res) {
     try {
         // DB에서 데이터 꺼내오기
-        const result = [...boards];
+        const result = boards.filter((board) => board.deletedAt === null);
 
         console.log(result);
 
@@ -65,7 +76,7 @@ app.get('/board/:number', function (req, res) {
         const boardNumber = parseInt(req.params.number);
 
         // DB에서 데이터 꺼내기
-        const board = boards.find((b) => b.number === boardNumber);
+        const board = boards.find((board) => board.number === boardNumber && board.deletedAt === null);
 
         // 요청한 데이터 응답하기
         if (board) {
@@ -110,6 +121,7 @@ app.post('/board', function (req, res) {
             title,
             content,
             createdAt: new Date(),
+            deletedAt: null,
         };
 
         boards.push(newBoard);
@@ -133,7 +145,7 @@ app.patch('/board/:number', function (req, res) {
         console.log(req.body);
 
         const boardNumber = parseInt(req.params.number);
-        const boardIndex = boards.findIndex((b) => b.number === boardNumber);
+        const boardIndex = boards.findIndex((board) => board.number === boardNumber && board.deletedAt === null);
 
         if (boardIndex === -1) {
             return res.status(404).send({ message: '게시글을 찾을 수 없습니다.' });
@@ -170,12 +182,30 @@ app.patch('/board/:number', function (req, res) {
 });
 
 app.delete('/board', function (req, res) {
-    // 데이터 받기
+    try {
+        // 데이터 받기
+        const boardNumber = parseInt(req.params.boardNumber);
 
-    // DB에서 삭제 처리(가짜 삭제)
+        const boardIndex = boards.findIndex((board) => board.number === boardNumber && board.deletedAt === null);
 
-    // DB 삭제 결과 응답
-    res.status(204).send('deleted');
+        if (boardIndex === -1) {
+            return res.status(404).send({ message: '게시글을 찾을 수 없습니다.' });
+        }
+
+        // DB에서 삭제 처리(가짜 삭제)
+        boards[boardIndex].deletedAt = new Date();
+
+        console.log('게시글이 성공적으로 수정되었습니다.', updatedBoard);
+
+        // DB 삭제 결과 응답
+        res.status(204).send({
+            message: '게시글이 성공적으로 수정되었습니다.',
+            board: boards[boardIndex],
+        });
+    } catch (error) {
+        console.error('게시글을 삭제하는 중 오류가 발생했습니다.', error);
+        res.status(500).send({ message: '게시글을 삭제하는 중 오류가 발생했습니다.' });
+    }
 });
 
 app.listen(3000);
