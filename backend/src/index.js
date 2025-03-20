@@ -2,6 +2,7 @@ import express from 'express';
 import swaggerUi from 'swagger-ui-express';
 import swaggerJsdoc from 'swagger-jsdoc';
 import cors from 'cors';
+import mongoose from 'mongoose';
 
 import { options } from '../swagger/config.js';
 
@@ -11,11 +12,6 @@ const swaggerSpec = swaggerJsdoc(options);
 app.use(express.json());
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use(cors());
-
-////////////////////////////////////////////////////////
-////////// 화면 전환 구현 완료 ok
-////////// 화면 전환 기능 함수화 후 온클릭 속성으로 넣기 ok
-////////// 게시글 상세 조회에서 본문 줄바꿈, 여러줄 띄우기 적용 안되는 문제 해결
 
 // 더미 데이터
 const boards = [
@@ -209,5 +205,10 @@ app.delete('/board/:boardNumber', function (req, res) {
     res.status(500).send({ message: '게시글을 삭제하는 중 오류가 발생했습니다.' });
   }
 });
+
+mongoose
+  .connect('mongodb://my-database:27017/basicBoard')
+  .then(() => console.log('db 접속 성공'))
+  .catch(() => console.log('db 접속 실패'));
 
 app.listen(3000);
