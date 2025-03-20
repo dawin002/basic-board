@@ -58,6 +58,7 @@ app.get('/boards', function (req, res) {
         // DB에서 데이터 꺼내오기
         const result = boards.filter((board) => board.deletedAt === null);
 
+        console.log('게시글을 성공적으로 가져왔습니다.');
         console.log(result);
 
         // 요청한 데이터 응답하기
@@ -80,6 +81,7 @@ app.get('/board/:number', function (req, res) {
 
         // 요청한 데이터 응답하기
         if (board) {
+            console.log('게시글을 성공적으로 가져왔습니다.');
             console.log(board);
             res.status(200).send(board);
         } else {
@@ -126,6 +128,7 @@ app.post('/board', function (req, res) {
 
         boards.push(newBoard);
 
+        console.log('게시글이 성공적으로 등록되었습니다.');
         console.log(newBoard);
         // DB 저장 결과 응답하기
         res.status(201).send({
@@ -170,7 +173,8 @@ app.patch('/board/:number', function (req, res) {
         // DB에 수정
         boards[boardIndex] = updatedBoard;
 
-        console.log('게시글이 성공적으로 수정되었습니다.', updatedBoard);
+        console.log('게시글이 성공적으로 수정되었습니다.');
+        console.log(updatedBoard);
         // DB 수정 결과 응답
         res.status(200).send({
             message: '게시글이 성공적으로 수정되었습니다.',

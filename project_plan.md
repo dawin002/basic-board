@@ -13,12 +13,12 @@
 1. api 구현
 
 -   [x] 게시글 생성 기능: post(board)
--   [ ] 게시글 전체 조회 기능: get()
+-   [x] 게시글 전체 조회 기능: get()
     -   삭제한 게시글 조회 안되게 처리
--   [ ] 게시글 상세 조회 기능: get(number)
+-   [x] 게시글 상세 조회 기능: get(number)
     -   삭제한 게시글 조회 안되게 처리
 -   [x] 게시글 수정 기능: patch(board)
--   [ ] 게시글 삭제 기능: delete(number)
+-   [x] 게시글 삭제 기능: delete(number)
     -   deletedAt 필드 생성
 
 2. 도커 설정
