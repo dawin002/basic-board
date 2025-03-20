@@ -11,7 +11,7 @@
                     const urlParams = new URLSearchParams(window.location.search);
                     boardNumber = urlParams.get('number');
 
-                    console.log(boardNumber);
+                    // console.log(boardNumber);
 
                     if (!boardNumber) {
                         console.error('게시글 번호가 제공되지 않았습니다.');
@@ -61,6 +61,34 @@
             const moveToCreate = function () {
                 window.location.href = 'board-create.html';
             };
+
+            const deleteBoard = async function () {
+                try {
+                    if (!boardNumber) {
+                        console.error('게시글 번호가 제공되지 않았습니다.');
+                        return;
+                    }
+
+                    const response = await axios.delete(`http://localhost:3000/board/${boardNumber}`);
+
+                    if (response.status === 204) {
+                        const deletedBoard = response.data.board;
+                        console.log(`게시글을 성공적으로 삭제했습니다. 삭제 일시: ${deletedBoard}\n`, deleteBoard);
+                    }
+                } catch (error) {
+                    if (error.response) {
+                        if (error.response.status === 500) {
+                            console.error('서버 내부 오류', error.response.data.message);
+                        } else {
+                            console.error('알 수 없는 오류', error.response.data);
+                        }
+                    } else if (error.request) {
+                        console.error('서버 응답 없음');
+                    } else {
+                        console.error('요청 설정 오류:', error.message);
+                    }
+                }
+            };
         </script>
         <style>
             .content {
@@ -85,7 +113,7 @@
                 <div class="contentsr__tail">
                     <button class="board_button" onclick="moveToList()">전체글</button>
                     <button class="update_button" onclick="moveToUpdate()">수정</button>
-                    <button class="delete_button">삭제</button>
+                    <button class="delete_button" onclick="deleteBoard()">삭제</button>
                     <button class="create_button" onclick="moveToCreate()">글쓰기</button>
                 </div>
             </div>
