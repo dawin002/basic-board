@@ -49,7 +49,7 @@ const boards = [
         title: '삭제된 글',
         content: '이건 삭제된 글이에요',
         createdAt: new Date('2025-03-20T20:30:00+09:00'),
-        deletedAt: null,
+        deletedAt: new Date('2025-03-20T20:30:00+09:00'),
     },
 ];
 
@@ -148,6 +148,7 @@ app.patch('/board/:number', function (req, res) {
         const boardIndex = boards.findIndex((board) => board.number === boardNumber && board.deletedAt === null);
 
         if (boardIndex === -1) {
+            console.error('게시글을 찾을 수 없습니다.');
             return res.status(404).send({ message: '게시글을 찾을 수 없습니다.' });
         }
 
@@ -181,27 +182,24 @@ app.patch('/board/:number', function (req, res) {
     }
 });
 
-app.delete('/board', function (req, res) {
+app.delete('/board/:boardNumber', function (req, res) {
     try {
         // 데이터 받기
         const boardNumber = parseInt(req.params.boardNumber);
-
         const boardIndex = boards.findIndex((board) => board.number === boardNumber && board.deletedAt === null);
 
         if (boardIndex === -1) {
+            console.error('게시글을 찾을 수 없습니다.');
             return res.status(404).send({ message: '게시글을 찾을 수 없습니다.' });
         }
 
-        // DB에서 삭제 처리(가짜 삭제)
+        // DB에서 삭제 처리(소프트 삭제)
         boards[boardIndex].deletedAt = new Date();
 
-        console.log('게시글이 성공적으로 수정되었습니다.', updatedBoard);
+        console.log('게시글이 성공적으로 삭제되었습니다.', boards[boardIndex]);
 
         // DB 삭제 결과 응답
-        res.status(204).send({
-            message: '게시글이 성공적으로 수정되었습니다.',
-            board: boards[boardIndex],
-        });
+        res.status(204).send(); // 상태코드 204 응답에는 본문을 포함할 수 없음
     } catch (error) {
         console.error('게시글을 삭제하는 중 오류가 발생했습니다.', error);
         res.status(500).send({ message: '게시글을 삭제하는 중 오류가 발생했습니다.' });

@@ -68,12 +68,13 @@
                         console.error('게시글 번호가 제공되지 않았습니다.');
                         return;
                     }
+                    console.log(boardNumber);
 
                     const response = await axios.delete(`http://localhost:3000/board/${boardNumber}`);
 
                     if (response.status === 204) {
-                        const deletedBoard = response.data.board;
-                        console.log(`게시글을 성공적으로 삭제했습니다. 삭제 일시: ${deletedBoard}\n`, deleteBoard);
+                        alert('게시글을 성공적으로 삭제했습니다.');
+                        moveToList();
                     }
                 } catch (error) {
                     if (error.response) {
