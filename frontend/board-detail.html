@@ -18,7 +18,7 @@
                         return;
                     }
 
-                    const response = await axios.get(`http://localhost:3000/board/${boardNumber}`);
+                    const response = await axios.get(`http://localhost:3000/api/boards/${boardNumber}`);
 
                     if (response.status === 200) {
                         const board = response.data;
@@ -70,7 +70,7 @@
                     }
                     console.log(boardNumber);
 
-                    const response = await axios.delete(`http://localhost:3000/board/${boardNumber}`);
+                    const response = await axios.delete(`http://localhost:3000/api/boards/${boardNumber}`);
 
                     if (response.status === 204) {
                         alert('게시글을 성공적으로 삭제했습니다.');

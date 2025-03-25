@@ -16,7 +16,7 @@
                         return;
                     }
 
-                    const response = await axios.get(`http://localhost:3000/board/${boardNumber}`);
+                    const response = await axios.get(`http://localhost:3000/api/boards/${boardNumber}`);
                     board = response.data;
 
                     document.getElementById('author').textContent = board.author;
@@ -65,7 +65,10 @@
                     if (newContent != board.content) updatedData.content = newContent;
 
                     if (Object.keys(updatedData).length > 0) {
-                        const response = await axios.patch(`http://localhost:3000/board/${boardNumber}`, updatedData);
+                        const response = await axios.patch(
+                            `http://localhost:3000/api/boards/${boardNumber}`,
+                            updatedData,
+                        );
 
                         board = response.data.board;
 
