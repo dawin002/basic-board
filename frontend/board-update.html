@@ -17,7 +17,7 @@
                     }
 
                     const response = await axios.get(`http://localhost:3000/api/boards/${boardNumber}`);
-                    board = response.data;
+                    const board = response.data;
 
                     document.getElementById('author').textContent = board.author;
                     document.getElementById('title').value = board.title;
@@ -60,28 +60,20 @@
                         return;
                     }
 
-                    const updatedData = {};
-                    if (newTitle != board.title) updatedData.title = newTitle;
-                    if (newContent != board.content) updatedData.content = newContent;
+                    const updatedData = { newTitle, newContent };
+                    const response = await axios.patch(`http://localhost:3000/api/boards/${boardNumber}`, updatedData);
 
-                    if (Object.keys(updatedData).length > 0) {
-                        const response = await axios.patch(
-                            `http://localhost:3000/api/boards/${boardNumber}`,
-                            updatedData,
-                        );
+                    const { message, board } = response.data;
+                    console.log(message, board);
 
-                        board = response.data.board;
-
-                        console.log(response.data.message, board);
-
-                        moveToDetail();
-                    } else {
-                        console.log('수정된 내용이 없습니다.');
-                    }
+                    moveToDetail();
                 } catch (error) {
                     if (error.response) {
                         if (error.response.status === 500) {
                             console.error('서버 내부 오류', error.response.data.message);
+                        } else if (error.response.status === 400) {
+                            alert(error.response.data.message);
+                            console.error('사용자 입력 오류', error.response.data.message);
                         } else {
                             console.error('알 수 없는 오류', error.response.data);
                         }
