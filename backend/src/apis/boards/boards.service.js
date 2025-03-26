@@ -1,25 +1,28 @@
-import Board from './models/board.model.js';
+import { Board } from './models/board.model.js';
 
 export class BoardsService {
-  getBoards() {
-    return this.boards.filter((board) => board.deletedAt === null);
+  async getBoards() {
+    return await Board.find({ deletedAt: null });
   }
 
-  getBoardById(boardNumber) {
-    return this.boards.find((board) => board.number === boardNumber && board.deletedAt === null);
+  async getBoardById(boardNumber) {
+    return await Board.findOne({
+      number: boardNumber,
+      deletedAt: null,
+    });
   }
 
-  createBoard(author, title, content) {
-    const newBoard = {
-      number: this.boards.length + 1,
+  async createBoard(author, title, content) {
+    const newBoard = new Board({
+      number: (await Board.countDocuments()) + 1,
       author,
       title,
       content,
       createdAt: new Date(),
       deletedAt: null,
-    };
-    this.boards.push(newBoard);
-    return newBoard;
+    });
+
+    return await newBoard.save();
   }
 
   updateBoard(boardNumber, updateFields) {
@@ -47,7 +50,6 @@ export class BoardsService {
       return { success: false, message: '수정된 내용이 없습니다.' };
     }
 
-    // 기존 객체를 직접 수정하지 않고 새로운 객체 생성
     const updatedBoard = { ...board, ...changes };
     board.title = updatedBoard.title;
     board.content = updatedBoard.content;
@@ -55,7 +57,6 @@ export class BoardsService {
     return { success: true, updatedBoard };
   }
 
-  ////////////// 여기 아직 안고침 고쳐야됨 여기부터
   deleteBoard(boardNumber) {
     const board = this.getBoardById(boardNumber);
     if (!board) return false;
