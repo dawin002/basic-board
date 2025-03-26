@@ -33,4 +33,6 @@
 
 4. 리펙토링
 
+-   [x] 백엔드 코드 분리
+
 5. api docs with swagger
