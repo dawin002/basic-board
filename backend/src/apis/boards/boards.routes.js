@@ -1,11 +1,9 @@
 import express from 'express';
 import { BoardsService } from './boards.service.js';
 import { BoardsController } from './boards.controller.js';
-import { BoardsModel } from './models/board.model.js';
 
 const router = express.Router();
-const boardsModel = new BoardsModel();
-const boardsService = new BoardsService(boardsModel);
+const boardsService = new BoardsService();
 const boardsController = new BoardsController(boardsService);
 
 router.get('/', (req, res) => boardsController.getAllBoards(req, res));

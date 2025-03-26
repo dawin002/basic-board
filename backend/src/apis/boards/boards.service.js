@@ -1,9 +1,6 @@
-export class BoardsService {
-  constructor(boardsModel) {
-    this.boardsModel = boardsModel;
-    this.boards = boardsModel.boards;
-  }
+import Board from './models/board.model.js';
 
+export class BoardsService {
   getBoards() {
     return this.boards.filter((board) => board.deletedAt === null);
   }
