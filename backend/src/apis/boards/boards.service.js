@@ -25,10 +25,17 @@ export class BoardsService {
     return await newBoard.save();
   }
 
-  updateBoard(boardNumber, updateFields) {
-    const board = this.getBoardById(boardNumber);
+  async updateBoard(boardNumber, updateFields) {
+    const board = await Board.findOne({
+      number: boardNumber,
+      deletedAt: null,
+    });
+
     if (!board) {
-      return { success: false, message: '게시글을 찾을 수 없습니다.' };
+      return {
+        success: false,
+        message: '게시글을 찾을 수 없습니다.',
+      };
     }
 
     const { newTitle, newContent } = updateFields;
@@ -47,14 +54,17 @@ export class BoardsService {
     if (content !== board.content) changes.content = content;
 
     if (Object.keys(changes).length === 0) {
-      return { success: false, message: '수정된 내용이 없습니다.' };
+      return {
+        success: false,
+        message: '수정된 내용이 없습니다.',
+      };
     }
 
-    const updatedBoard = { ...board, ...changes };
-    board.title = updatedBoard.title;
-    board.content = updatedBoard.content;
+    Object.assign(board, changes);
 
-    return { success: true, updatedBoard };
+    const updatedBoard = await board.save();
+
+    return { success: true, board: updatedBoard };
   }
 
   deleteBoard(boardNumber) {
