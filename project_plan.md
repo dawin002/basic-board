@@ -36,10 +36,12 @@
 -   [x] 게시글 수정 기능에 DB 적용
 -   [x] 게시글 삭제 기능에 DB 적용
 -   [x] try-catch로 DB 사용 코드 에러 핸들링
--   [ ] 게시글 조회 조건 변경 (number -> \_id)
+-   [x] Mongoose 디버그 모드 설정
 
 4. 리펙토링
 
 -   [x] 백엔드 코드 분리
 
 5. api docs with swagger
+
+6. TypeScript 사용?
