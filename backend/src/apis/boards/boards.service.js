@@ -67,11 +67,16 @@ export class BoardsService {
     return { success: true, board: updatedBoard };
   }
 
-  deleteBoard(boardNumber) {
-    const board = this.getBoardById(boardNumber);
+  async deleteBoard(boardNumber) {
+    const board = await Board.findOne({
+      number: boardNumber,
+      deletedAt: null,
+    });
+
     if (!board) return false;
 
     board.deletedAt = new Date();
-    return true;
+
+    return await board.save();
   }
 }
