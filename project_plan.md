@@ -45,3 +45,8 @@
 5. api docs with swagger
 
 6. TypeScript 사용?
+
+-   [x] tsconfig.json 설정 추가
+-   [x] 파일 확장자 변경
+-   [x] 타입스크립트 관련 모듈 설치
+-   [ ] 타입 적용

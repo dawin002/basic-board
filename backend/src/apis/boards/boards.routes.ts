@@ -1,6 +1,6 @@
 import express from 'express';
-import { BoardsService } from './boards.service.js';
-import { BoardsController } from './boards.controller.js';
+import { BoardsService } from './boards.service';
+import { BoardsController } from './boards.controller';
 
 const router = express.Router();
 const boardsService = new BoardsService();

@@ -1,10 +1,10 @@
 import express from 'express';
 import cors from 'cors';
 import swaggerJsdoc from 'swagger-jsdoc';
-import swaggerUi from 'swagger-ui-express'; // 🔹 빠진 부분 추가
-import { options } from '../swagger/config.js';
-import { connectDB } from './config/db.js';
-import boardsRouter from './apis/boards/boards.routes.js';
+import swaggerUi from 'swagger-ui-express';
+import { options } from '../swagger/config';
+import { connectDB } from './config/db';
+import boardsRouter from './apis/boards/boards.routes';
 
 const app = express();
 const swaggerSpec = swaggerJsdoc(options);
