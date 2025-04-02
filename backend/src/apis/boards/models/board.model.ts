@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose, { Document, Model } from 'mongoose';
 
 const boardSchema = new mongoose.Schema({
   number: { type: Number, unique: true },
@@ -9,4 +9,15 @@ const boardSchema = new mongoose.Schema({
   deletedAt: { type: Date, default: null },
 });
 
-export const Board = mongoose.model('Board', boardSchema);
+// Document 타입 정의
+export interface BoardDocument extends Document {
+  number: number;
+  author: string;
+  title: string;
+  content: string;
+  createdAt: Date;
+  deletedAt?: Date | null;
+}
+
+// 모델 타입 정의
+export const Board: Model<BoardDocument> = mongoose.model<BoardDocument>('Board', boardSchema);
