@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import { BoardsService } from './boards.service';
-import { GetBoardInput, CreateBoardInput, UpdateBoardInput, DeleteBoardInput } from './dto/board.input';
 
 export class BoardsController {
   constructor(
@@ -10,7 +9,7 @@ export class BoardsController {
   async getAllBoards(req: Request, res: Response): Promise<void> {
     try {
       // DB에서 데이터 꺼내오기
-      const boards = await this.boardsService.getBoards();
+      const { boards } = await this.boardsService.getBoards();
       console.log('게시글을 성공적으로 가져왔습니다.');
       console.log(boards);
       res.status(200).send(boards);
@@ -22,16 +21,17 @@ export class BoardsController {
 
   async getBoardByNumber(req: Request, res: Response): Promise<void> {
     try {
-      const getBoardInput: GetBoardInput = { boardNumber: parseInt(req.params.number) };
-      const board = await this.boardsService.getBoardByNumber({ getBoardInput });
-      if (!board) {
+      const getBoardByNumberOutput = await this.boardsService.getBoardByNumber({
+        boardNumber: parseInt(req.params.number),
+      });
+      if (!getBoardByNumberOutput.board) {
         console.log('게시글을 찾을 수 없습니다.');
         res.status(404).send({ message: '게시글을 찾을 수 없습니다.' });
         return;
       }
       console.log('게시글을 성공적으로 가져왔습니다.');
-      console.log(board);
-      res.status(200).send(board);
+      console.log(getBoardByNumberOutput.board);
+      res.status(200).send(getBoardByNumberOutput.board);
     } catch (error) {
       console.error('게시글을 가져올 수 없습니다.', error);
       res.status(500).send({ message: '게시글을 가져올 수 없습니다.' });
@@ -40,22 +40,22 @@ export class BoardsController {
 
   async createBoard(req: Request, res: Response): Promise<void> {
     try {
-      const createBoardInput: CreateBoardInput = req.body;
-      if (!createBoardInput.author.trim()) {
+      const { author, title, content } = req.body;
+      if (!author.trim()) {
         res.status(400).send({ message: '작성자를 입력해야 합니다.' });
         return;
       }
-      if (!createBoardInput.title.trim()) {
+      if (!title.trim()) {
         res.status(400).send({ message: '제목을 입력해야 합니다.' });
         return;
       }
-      if (!createBoardInput.content.trim()) {
+      if (!content.trim()) {
         res.status(400).send({ message: '본문을 입력해야 합니다.' });
         return;
       }
-      const newBoard = await this.boardsService.createBoard({ createBoardInput });
+      const createBoardOutput = await this.boardsService.createBoard({ author, title, content });
       console.log('게시글이 성공적으로 등록되었습니다.');
-      res.status(201).send({ message: '게시글이 등록되었습니다.', board: newBoard });
+      res.status(201).send({ message: '게시글이 등록되었습니다.', board: createBoardOutput.board });
     } catch (error) {
       console.error('게시글을 등록하는 중 오류가 발생했습니다.', error);
       res.status(500).send({ message: '게시글을 등록하는 중 오류가 발생했습니다.' });
@@ -65,9 +65,8 @@ export class BoardsController {
   async updateBoard(req: Request, res: Response): Promise<void> {
     try {
       const boardNumber = parseInt(req.params.number);
-      const updateBoardInput: UpdateBoardInput = { boardNumber, ...req.body };
       // 서비스에 비즈니스 로직 위임
-      const { success, message, board } = await this.boardsService.updateBoard({ updateBoardInput });
+      const { success, message, board } = await this.boardsService.updateBoard({ boardNumber, ...req.body });
 
       if (!success) {
         res.status(400).send({ message });
@@ -75,7 +74,7 @@ export class BoardsController {
       }
       res.status(200).send({
         message: '게시글이 수정되었습니다.',
-        board,
+        board: board,
       });
     } catch (error) {
       console.error('게시글을 수정하는 중 오류가 발생했습니다.', error);
@@ -86,9 +85,8 @@ export class BoardsController {
   async deleteBoard(req: Request, res: Response): Promise<void> {
     try {
       const boardNumber = parseInt(req.params.number);
-      const deleteBoardInput: DeleteBoardInput = { boardNumber };
-      const deleted = await this.boardsService.deleteBoard({ deleteBoardInput });
-      if (!deleted) {
+      const { isDeleted } = await this.boardsService.deleteBoard({ boardNumber });
+      if (!isDeleted) {
         console.log('게시글을 찾을 수 없습니다.');
         res.status(404).send({ message: '게시글을 찾을 수 없습니다.' });
         return;

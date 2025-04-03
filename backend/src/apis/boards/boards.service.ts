@@ -1,66 +1,71 @@
 import { Board, BoardDocument } from './models/board.model';
 import {
-  IBoardServiceDelete,
-  IBoardsServiceCreate,
-  IBoardsServiceGet,
-  IBoardsServiceUpdate,
-} from './interfaces/boards-service.interface';
+  CreateBoardInput,
+  CreateBoardOutput,
+  DeleteBoardInput,
+  DeleteBoardOutput,
+  GetBoardByNumberInput,
+  GetBoardByNumberOutput,
+  GetBoardsOutput,
+  UpdateBoardInput,
+  UpdateBoardOutput,
+} from './dto/boards-service.dto';
 
 export class BoardsService {
-  async getBoards(): Promise<BoardDocument[]> {
+  async getBoards(): Promise<GetBoardsOutput> {
     try {
       const boards = await Board.find({ deletedAt: null });
-      return boards;
+      return { boards };
     } catch (error) {
       console.error('[DB 에러] 게시글을 가져오는 중 오류가 발생했습니다:', error);
       throw new Error('게시글을 가져오는 중 오류가 발생했습니다.');
     }
   }
 
-  async getBoardByNumber({ getBoardInput }: IBoardsServiceGet): Promise<BoardDocument | null> {
+  async getBoardByNumber({ boardNumber }: GetBoardByNumberInput): Promise<GetBoardByNumberOutput> {
     try {
-      const board = await Board.findOne({ number: getBoardInput.boardNumber, deletedAt: null });
-      return board;
+      const board = await Board.findOne({ number: boardNumber, deletedAt: null });
+      return { board };
     } catch (error) {
       console.error('[DB 에러] 게시글을 가져오는 중 오류가 발생했습니다:', error);
       throw new Error('게시글을 가져오는 중 오류가 발생했습니다.');
     }
   }
 
-  async createBoard({ createBoardInput }: IBoardsServiceCreate): Promise<BoardDocument> {
+  async createBoard({ author, title, content }: CreateBoardInput): Promise<CreateBoardOutput> {
     try {
       const newBoard = new Board({
         number: (await Board.countDocuments()) + 1,
-        author: createBoardInput.author,
-        title: createBoardInput.title,
-        content: createBoardInput.content,
+        author: author,
+        title: title,
+        content: content,
         createdAt: new Date(),
         deletedAt: null,
       });
-
-      return await newBoard.save();
+      const board = await newBoard.save();
+      return { board };
     } catch (error) {
       console.error('[DB 에러] 게시글을 등록하는 중 오류가 발생했습니다:', error);
       throw new Error('게시글을 등록하는 중 오류가 발생했습니다.');
     }
   }
 
-  async updateBoard(
-    { updateBoardInput }: IBoardsServiceUpdate, //
-  ): Promise<{ success: boolean; message?: string; board?: BoardDocument }> {
+  async updateBoard({ boardNumber, title, content }: UpdateBoardInput): Promise<UpdateBoardOutput> {
     try {
-      const board = await Board.findOne({ number: updateBoardInput.boardNumber, deletedAt: null });
+      const board = await Board.findOne({ number: boardNumber, deletedAt: null });
 
       if (!board) {
         return { success: false, message: '게시글을 찾을 수 없습니다.' };
       }
 
-      const { title, content } = updateBoardInput;
       const newTitle = title?.trim();
       const newContent = content?.trim();
 
       if (!newTitle || !newContent) {
-        return { success: false, message: !newTitle ? '제목을 입력해야 합니다.' : '본문을 입력해야 합니다.' };
+        return {
+          success: false,
+          message: !newTitle ? '제목을 입력해야 합니다.' : '본문을 입력해야 합니다.',
+        };
       }
 
       const changes: Partial<BoardDocument> = {};
@@ -80,16 +85,17 @@ export class BoardsService {
     }
   }
 
-  async deleteBoard({ deleteBoardInput }: IBoardServiceDelete): Promise<boolean> {
+  async deleteBoard({ boardNumber }: DeleteBoardInput): Promise<DeleteBoardOutput> {
     try {
-      const board = await Board.findOne({ number: deleteBoardInput.boardNumber, deletedAt: null });
-      if (!board) return false;
+      const board = await Board.findOne({ number: boardNumber, deletedAt: null });
+      if (!board) return { isDeleted: false };
+
       board.deletedAt = new Date();
       await board.save();
-      return true;
+      return { isDeleted: true };
     } catch (error) {
-      console.error('[DB 에러] 게시글을 등록하는 중 오류가 발생했습니다:', error);
-      throw new Error('게시글을 등록하는 중 오류가 발생했습니다.');
+      console.error('[DB 에러] 게시글을 삭제하는 중 오류가 발생했습니다:', error);
+      throw new Error('게시글을 삭제하는 중 오류가 발생했습니다.');
     }
   }
 }

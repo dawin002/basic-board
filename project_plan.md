@@ -51,5 +51,4 @@
 -   [x] 타입스크립트 관련 모듈 설치
 -   [x] 타입스크립트 타입 명시
 -   [x] input DTO 적용
--   [x] 인터페이스 적용
--   [ ] output DTO 적용
+-   [x] output DTO 적용
