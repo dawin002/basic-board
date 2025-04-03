@@ -1,15 +1,13 @@
+import { CreateBoardInput } from './dto/create-board.input';
+import { CreateBoardOutput } from './dto/create-board.output';
+import { DeleteBoardInput } from './dto/delete-board.input';
+import { DeleteBoardOutput } from './dto/delete-board.output';
+import { GetBoardByNumberInput } from './dto/get-board-by-number.input';
+import { GetBoardByNumberOutput } from './dto/get-board-by-number.output';
+import { GetBoardsOutput } from './dto/get-boards.output';
+import { UpdateBoardInput } from './dto/update-board.input';
+import { UpdateBoardOutput } from './dto/update-board.output';
 import { Board, BoardDocument } from './models/board.model';
-import {
-  CreateBoardInput,
-  CreateBoardOutput,
-  DeleteBoardInput,
-  DeleteBoardOutput,
-  GetBoardByNumberInput,
-  GetBoardByNumberOutput,
-  GetBoardsOutput,
-  UpdateBoardInput,
-  UpdateBoardOutput,
-} from './dto/boards-service.dto';
 
 export class BoardsService {
   async getBoards(): Promise<GetBoardsOutput> {
