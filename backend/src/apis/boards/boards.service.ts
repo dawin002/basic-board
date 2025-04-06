@@ -59,16 +59,9 @@ export class BoardsService {
       const newTitle = title?.trim();
       const newContent = content?.trim();
 
-      if (!newTitle || !newContent) {
-        return {
-          success: false,
-          message: !newTitle ? '제목을 입력해야 합니다.' : '본문을 입력해야 합니다.',
-        };
-      }
-
       const changes: Partial<BoardDocument> = {};
-      if (newTitle !== board.title) changes.title = newTitle;
-      if (newContent !== board.content) changes.content = newContent;
+      if (newTitle !== undefined && newTitle !== board.title) changes.title = newTitle;
+      if (newContent !== undefined && newContent !== board.content) changes.content = newContent;
 
       if (Object.keys(changes).length === 0) {
         return { success: false, message: '수정된 내용이 없습니다.' };

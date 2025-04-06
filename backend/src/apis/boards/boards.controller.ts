@@ -1,11 +1,12 @@
 import { Request, Response } from 'express';
 import { BoardsService } from './boards.service';
 import { plainToInstance } from 'class-transformer';
-import { validate } from 'class-validator';
 import { GetBoardByNumberInput } from './dto/get-board-by-number.input';
 import { CreateBoardInput } from './dto/create-board.input';
 import { UpdateBoardInput } from './dto/update-board.input';
 import { DeleteBoardInput } from './dto/delete-board.input';
+import { validateUpdateBoardInput } from './validators/update-board.validator';
+import { validateCreateBoardInput } from './validators/create-board.validator';
 
 export class BoardsController {
   constructor(
@@ -48,12 +49,17 @@ export class BoardsController {
 
   async createBoard(req: Request, res: Response): Promise<void> {
     try {
-      const createBoardInput = plainToInstance(CreateBoardInput, req.body);
-      const errors = await validate(createBoardInput);
-      if (errors.length > 0) {
+      const createBoardInput: CreateBoardInput = { ...req.body };
+
+      const { valid, errors } = validateCreateBoardInput(createBoardInput);
+
+      if (!valid) {
+        console.error({ message: '입력값이 유효하지 않습니다.', errors });
         res.status(400).send({ message: '입력값이 유효하지 않습니다.', errors });
         return;
       }
+
+      console.log('[Create Board Input]\n', createBoardInput);
 
       const { board } = await this.boardsService.createBoard(createBoardInput);
 
@@ -67,16 +73,22 @@ export class BoardsController {
 
   async updateBoard(req: Request, res: Response): Promise<void> {
     try {
-      const updateBoardInput = plainToInstance(UpdateBoardInput, {
-        boardNumber: req.params.number,
+      const updateBoardInput: UpdateBoardInput = {
+        boardNumber: Number(req.params.number),
         ...req.body,
-      });
+      };
 
-      const errors = await validate(updateBoardInput);
-      if (errors.length > 0) {
-        res.status(400).send({ message: '입력값이 유효하지 않습니다.', errors });
+      console.log('[Update Board Input]\n', updateBoardInput);
+
+      const { valid, errors } = validateUpdateBoardInput(updateBoardInput);
+
+      if (!valid) {
+        console.error({ message: errors });
+        res.status(400).send({ message: errors });
         return;
       }
+
+      console.log('[Controller] updateBoardInput', updateBoardInput);
 
       const { success, message, board } = await this.boardsService.updateBoard(updateBoardInput);
 
