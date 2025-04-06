@@ -52,6 +52,5 @@
 -   [x] 타입스크립트 타입 명시
 -   [x] input DTO 적용
 -   [x] output DTO 적용
--   [x] class-validator 사용해 입력값 검증
--   [x] class-transformer 사용해 req.body를 DTO로 변환
+-   [x] 입력값 검증
 -   [x] 도커에서 서버 실행하기

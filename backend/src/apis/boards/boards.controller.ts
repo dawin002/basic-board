@@ -54,12 +54,10 @@ export class BoardsController {
       const { valid, errors } = validateCreateBoardInput(createBoardInput);
 
       if (!valid) {
-        console.error({ message: '입력값이 유효하지 않습니다.', errors });
-        res.status(400).send({ message: '입력값이 유효하지 않습니다.', errors });
+        console.error({ message: errors });
+        res.status(400).send({ message: errors });
         return;
       }
-
-      console.log('[Create Board Input]\n', createBoardInput);
 
       const { board } = await this.boardsService.createBoard(createBoardInput);
 
