@@ -54,4 +54,4 @@
 -   [x] output DTO 적용
 -   [x] class-validator 사용해 입력값 검증
 -   [x] class-transformer 사용해 req.body를 DTO로 변환
--   [ ] 서버 실행해서 에러 잡기
+-   [x] 도커에서 서버 실행하기
