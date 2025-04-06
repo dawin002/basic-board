@@ -44,6 +44,13 @@
 
 5. api docs with swagger
 
+-   [x] swagger 사용해 api docs 생성
+-   [x] 게시글 전체 조회 기능 api docs 생성
+-   [x] 게시글 상세 조회 기능 api docs 생성
+-   [x] 게시글 등록 기능 api docs 생성
+-   [x] 게시글 수정 기능 api docs 생성
+-   [x] 게시글 삭제 기능 api docs 생성
+
 6. TypeScript 사용?
 
 -   [x] tsconfig.json 설정 추가
@@ -54,3 +61,7 @@
 -   [x] output DTO 적용
 -   [x] 입력값 검증
 -   [x] 도커에서 서버 실행하기
+
+7. 수정
+
+-   [ ] 게시판 조회 기능들 path parameter로 바꾸기
