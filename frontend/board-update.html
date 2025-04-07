@@ -28,6 +28,8 @@
                     if (error.response) {
                         if (error.response.status === 404) {
                             console.error('서버 내부 오류', error.response.data.message);
+                            alert(error.response.data.message);
+                            moveToList();
                         } else if (error.response.status === 500) {
                             console.error('서버 내부 오류', error.response.data.message);
                         } else {
@@ -87,6 +89,10 @@
 
             const moveToDetail = function () {
                 window.location.href = `/board-detail/${boardNumber}`;
+            };
+
+            const moveToList = function () {
+                window.location.href = '/board-list.html';
             };
         </script>
     </head>
