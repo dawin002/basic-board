@@ -1,6 +1,6 @@
 /**
  * @swagger
- * /boards:
+ * /api/boards:
  *   post:
  *     summary: 게시글 등록하기
  *     tags: [Board]
@@ -10,6 +10,10 @@
  *         application/json:
  *           schema:
  *             type: object
+ *             required:
+ *               - author
+ *               - title
+ *               - content
  *             properties:
  *               author:
  *                 type: string

@@ -1,6 +1,6 @@
 /**
  * @swagger
- * /boards/{number}:
+ * /api/boards/{number}:
  *   get:
  *     summary: 특정 게시글 가져오기
  *     tags: [Board]
@@ -18,6 +18,11 @@
  *           application/json:
  *             schema:
  *               type: object
+ *               required:
+ *                 - number
+ *                 - author
+ *                 - title
+ *                 - content
  *               properties:
  *                 number:
  *                   type: integer

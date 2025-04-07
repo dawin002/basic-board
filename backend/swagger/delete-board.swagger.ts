@@ -1,6 +1,6 @@
 /**
  * @swagger
- * /boards/{number}:
+ * /api/boards/{number}:
  *   delete:
  *     summary: 게시글 삭제하기 (소프트 딜리트)
  *     tags: [Board]

@@ -1,6 +1,6 @@
 /**
  * @swagger
- * /boards/{number}:
+ * /api/boards/{number}:
  *   patch:
  *     summary: 게시글 수정하기
  *     tags: [Board]
@@ -17,6 +17,9 @@
  *         application/json:
  *           schema:
  *             type: object
+ *             required:
+ *               - title
+ *               - content
  *             properties:
  *               title:
  *                 type: string

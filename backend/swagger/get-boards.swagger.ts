@@ -1,6 +1,6 @@
 /**
  * @swagger
- * /boards:
+ * /api/boards:
  *   get:
  *     summary: 모든 게시글 가져오기
  *     tags: [Board]
@@ -13,6 +13,11 @@
  *               type: array
  *               items:
  *                 type: object
+ *                 required:
+ *                   - number
+ *                   - author
+ *                   - title
+ *                   - content
  *                 properties:
  *                   number:
  *                     type: integer
