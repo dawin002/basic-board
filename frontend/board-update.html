@@ -8,22 +8,20 @@
 
             window.onload = async function () {
                 try {
-                    const urlParams = new URLSearchParams(window.location.search);
-                    boardNumber = urlParams.get('number');
+                    const paths = window.location.pathname.split('/');
+                    boardNumber = paths[paths.length - 1];
 
                     if (!boardNumber) {
                         console.error('게시글 번호가 제공되지 않았습니다.');
                         return;
                     }
 
-                    const response = await axios.get(`http://localhost:3000/api/boards/${boardNumber}`);
+                    const response = await axios.get(`/api/boards/${boardNumber}`);
                     const board = response.data;
 
                     document.getElementById('author').textContent = board.author;
                     document.getElementById('title').value = board.title;
                     document.getElementById('content').value = board.content;
-
-                    document.getElementById('update-button').addEventListener('click', updateBoard);
 
                     console.log('게시글 불러옴', board);
                 } catch (error) {
@@ -60,7 +58,7 @@
                         return;
                     }
 
-                    const response = await axios.patch(`http://localhost:3000/api/boards/${boardNumber}`, {
+                    const response = await axios.patch(`/api/boards/${boardNumber}`, {
                         title,
                         content,
                     });
@@ -88,7 +86,7 @@
             };
 
             const moveToDetail = function () {
-                window.location.href = `board-detail.html?number=${boardNumber}`;
+                window.location.href = `/board-detail/${boardNumber}`;
             };
         </script>
     </head>
@@ -111,7 +109,7 @@
                 </div>
                 <div class="contents__tail">
                     <button class="board_button" onclick="moveToDetail()">취소</button>
-                    <button id="update-button" class="update_button">수정</button>
+                    <button id="update-button" class="update_button" onclick="updateBoard()">수정</button>
                 </div>
             </div>
         </div>

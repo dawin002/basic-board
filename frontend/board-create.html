@@ -4,10 +4,6 @@
         <title>글쓰기 : 다윈게시판</title>
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         <script defer>
-            window.onload = function () {
-                document.getElementById('write-button').addEventListener('click', createBoard);
-            };
-
             const createBoard = async function () {
                 try {
                     const author = document.getElementById('author').value;
@@ -29,7 +25,7 @@
                         return;
                     }
 
-                    const response = await axios.post('http://localhost:3000/api/boards', {
+                    const response = await axios.post('/api/boards', {
                         author,
                         title,
                         content,
@@ -62,11 +58,11 @@
             };
 
             const moveToList = function () {
-                window.location.href = 'board-list.html';
+                window.location.href = '/board-list.html';
             };
 
             const moveToDetail = function (boardNumber) {
-                window.location.href = `board-detail.html?number=${boardNumber}`;
+                window.location.href = `/board-detail/${boardNumber}`;
             };
         </script>
     </head>
@@ -89,7 +85,7 @@
                 </div>
                 <div class="contents__tail">
                     <button class="board_button" onclick="moveToList()">취소</button>
-                    <button id="write-button" class="write_button">등록</button>
+                    <button id="write-button" class="write_button" onclick="createBoard()">등록</button>
                 </div>
             </div>
         </div>
