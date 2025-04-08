@@ -41,11 +41,11 @@
                     moveToDetail(boardNumber);
                 } catch (error) {
                     if (error.response) {
-                        if (error.response.status === 500) {
-                            console.error('서버 내부 오류', error.response.data.message);
-                        } else if (error.response.status === 400) {
+                        if (error.response.status === 400) {
                             console.error('입력 오류', error.response.data.message);
                             alert(error.response.data.message);
+                        } else if (error.response.status === 500) {
+                            console.error('서버 내부 오류', error.response.data.message);
                         } else {
                             console.error('알 수 없는 오류', error.response.data);
                         }

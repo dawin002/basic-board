@@ -90,7 +90,13 @@ export class BoardsController {
 
       const { success, message, board } = await this.boardsService.updateBoard(updateBoardInput);
 
-      if (!success) {
+      if (!success && !board) {
+        console.log(message);
+        res.status(404).send({ message });
+        return;
+      }
+
+      if (!success && board) {
         console.log(message);
         res.status(400).send({ message });
         return;
