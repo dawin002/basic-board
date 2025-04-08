@@ -8,6 +8,7 @@ import { GetBoardsOutput } from './dto/get-boards.output';
 import { UpdateBoardInput } from './dto/update-board.input';
 import { UpdateBoardOutput } from './dto/update-board.output';
 import { Board, BoardDocument } from './models/board.model';
+import { Counter } from './models/counter.model';
 
 export class BoardsService {
   async getBoards(): Promise<GetBoardsOutput> {
@@ -32,11 +33,12 @@ export class BoardsService {
 
   async createBoard({ author, title, content }: CreateBoardInput): Promise<CreateBoardOutput> {
     try {
+      const boardNumber = await this.getNewBoardNumber();
       const newBoard = new Board({
-        number: (await Board.countDocuments()) + 1,
-        author: author,
-        title: title,
-        content: content,
+        number: boardNumber,
+        author,
+        title,
+        content,
         createdAt: new Date(),
         deletedAt: null,
       });
@@ -87,6 +89,20 @@ export class BoardsService {
     } catch (error) {
       console.error('[DB 에러] 게시글을 삭제하는 중 오류가 발생했습니다:', error);
       throw new Error('게시글을 삭제하는 중 오류가 발생했습니다.');
+    }
+  }
+
+  async getNewBoardNumber(): Promise<number> {
+    try {
+      const counter = await Counter.findOneAndUpdate(
+        { name: 'board' }, //
+        { $inc: { count: 1 } },
+        { new: true, upsert: true },
+      );
+      return counter.count;
+    } catch (error) {
+      console.log('[DB 에러] 새로운 게시글 번호를 할당할 수 없습니다.');
+      throw new Error('[DB 에러] 새로운 게시글 번호를 할당할 수 없습니다.');
     }
   }
 }
