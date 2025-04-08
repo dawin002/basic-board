@@ -20,8 +20,10 @@ export class BoardsController {
       console.log('게시글을 성공적으로 가져왔습니다.\n', boards);
       res.status(200).send(boards);
     } catch (error) {
-      console.error('게시글을 가져올 수 없습니다.', error);
-      res.status(500).send({ message: '게시글을 가져올 수 없습니다.' });
+      const status = (error as any).status || 500;
+      const message = (error as any).message || '서버 오류';
+      console.error('[getBoard 컨트롤러 오류]', error);
+      res.status(status).send({ message });
     }
   }
 
@@ -33,17 +35,13 @@ export class BoardsController {
 
       const { board } = await this.boardsService.getBoardByNumber(getBoardByNumberInput);
 
-      if (!board) {
-        console.log('게시글을 찾을 수 없습니다.');
-        res.status(404).send({ message: '게시글을 찾을 수 없습니다.' });
-        return;
-      }
-
       console.log('게시글을 성공적으로 가져왔습니다.\n', board);
       res.status(200).send(board);
     } catch (error) {
-      console.error('게시글을 가져올 수 없습니다.', error);
-      res.status(500).send({ message: '게시글을 가져올 수 없습니다.' });
+      const status = (error as any).status || 500;
+      const message = (error as any).message || '서버 오류';
+      console.error('[getBoardByNumber 컨트롤러 오류]', error);
+      res.status(status).send({ message });
     }
   }
 
@@ -76,8 +74,6 @@ export class BoardsController {
         ...req.body,
       };
 
-      console.log('[Update Board Input]\n', updateBoardInput);
-
       const { valid, errors } = validateUpdateBoardInput(updateBoardInput);
 
       if (!valid) {
@@ -85,8 +81,6 @@ export class BoardsController {
         res.status(400).send({ message: errors });
         return;
       }
-
-      console.log('[Controller] updateBoardInput', updateBoardInput);
 
       const { success, message, board } = await this.boardsService.updateBoard(updateBoardInput);
 
@@ -98,7 +92,7 @@ export class BoardsController {
 
       if (!success && board) {
         console.log(message);
-        res.status(400).send({ message });
+        res.status(409).send({ message });
         return;
       }
 

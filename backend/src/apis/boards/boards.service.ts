@@ -9,6 +9,7 @@ import { UpdateBoardInput } from './dto/update-board.input';
 import { UpdateBoardOutput } from './dto/update-board.output';
 import { Board, BoardDocument } from './models/board.model';
 import { Counter } from './models/counter.model';
+import { CustomError } from '../common/errors/customError';
 
 export class BoardsService {
   async getBoards(): Promise<GetBoardsOutput> {
@@ -17,17 +18,24 @@ export class BoardsService {
       return { boards };
     } catch (error) {
       console.error('[DB 에러] 게시글을 가져오는 중 오류가 발생했습니다:', error);
-      throw new Error('게시글을 가져오는 중 오류가 발생했습니다.');
+      throw new CustomError(500, '게시글을 가져오는 중 오류가 발생했습니다.');
     }
   }
 
   async getBoardByNumber({ boardNumber }: GetBoardByNumberInput): Promise<GetBoardByNumberOutput> {
     try {
       const board = await Board.findOne({ number: boardNumber, deletedAt: null });
+
+      if (!board) {
+        throw new CustomError(404, '게시글을 찾을 수 없습니다.');
+      }
+
       return { board };
     } catch (error) {
+      if (error instanceof CustomError) throw error;
+
       console.error('[DB 에러] 게시글을 가져오는 중 오류가 발생했습니다:', error);
-      throw new Error('게시글을 가져오는 중 오류가 발생했습니다.');
+      throw new CustomError(500, '게시글을 가져오는 중 오류가 발생했습니다.');
     }
   }
 
@@ -66,7 +74,7 @@ export class BoardsService {
       if (newContent !== undefined && newContent !== board.content) changes.content = newContent;
 
       if (Object.keys(changes).length === 0) {
-        return { success: false, message: '수정된 내용이 없습니다.' };
+        return { success: false, board, message: '수정된 내용이 없습니다.' };
       }
 
       Object.assign(board, changes);
