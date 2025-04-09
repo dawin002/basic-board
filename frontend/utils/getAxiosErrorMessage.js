@@ -1,9 +1,8 @@
-export function getAxiosErrorMessage(error) {
+export const getAxiosErrorMessage = function (error) {
   if (error.response) {
     const status = error.response.status;
     const message = (error.response.data && error.response.data.message) || '서버 오류가 발생했습니다.';
 
-    // 로그 출력만 담당
     if (status === 400) {
       console.error('잘못된 요청:', message);
     } else if (status === 404) {
@@ -24,4 +23,4 @@ export function getAxiosErrorMessage(error) {
     console.error('요청 설정 오류:', error.message);
     return { status: null, message: '요청 설정 오류' };
   }
-}
+};

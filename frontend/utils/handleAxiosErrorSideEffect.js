@@ -1,7 +1,7 @@
-export function handleAxiosErrorSideEffect(status, message, onStatus) {
+export const handleAxiosErrorSideEffect = function (status, message, onStatus) {
   alert(message);
 
   if (onStatus) {
     onStatus(status, message);
   }
-}
+};
