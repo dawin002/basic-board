@@ -5,6 +5,7 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script type="module" defer>
       import { handleAxiosError } from '/utils/handleAxiosError.js';
+      import { moveToList, moveToDetail } from '/utils/navigation.js';
 
       let boardNumber;
 
@@ -36,6 +37,9 @@
 
           alert(message);
         }
+
+        document.getElementById('move-to-detail-button').addEventListener('click', () => moveToDetail(boardNumber));
+        document.getElementById('update-board-button').addEventListener('click', updateBoard);
       };
 
       const updateBoard = async function () {
@@ -63,7 +67,7 @@
           const { message, board } = response.data;
           console.log(message, board);
 
-          moveToDetail();
+          moveToDetail(boardNumber);
         } catch (error) {
           const message = handleAxiosError(error, (status, message) => {
             if (status === 404) {
@@ -71,20 +75,12 @@
               moveToList();
             } else if (status === 409) {
               alert(message);
-              moveToDetail();
+              moveToDetail(boardNumber);
             }
           });
 
           alert(message);
         }
-      };
-
-      const moveToDetail = function () {
-        window.location.href = `/board-detail/${boardNumber}`;
-      };
-
-      const moveToList = function () {
-        window.location.href = '/board-list.html';
       };
     </script>
   </head>
@@ -106,8 +102,8 @@
           <textarea id="content" rows="20" cols="55" placeholder="본문을 입력하세요."></textarea>
         </div>
         <div class="contents__tail">
-          <button class="board_button" onclick="moveToDetail()">취소</button>
-          <button id="update-button" class="update_button" onclick="updateBoard()">수정</button>
+          <button id="move-to-detail-button" class="move_to_detail_button">취소</button>
+          <button id="update-board-button" class="update__board_button">수정</button>
         </div>
       </div>
     </div>

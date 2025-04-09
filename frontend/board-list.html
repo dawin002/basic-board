@@ -5,6 +5,7 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script type="module" defer>
       import { handleAxiosError } from '/utils/handleAxiosError.js';
+      import { moveToCreate } from '/utils/navigation.js';
 
       window.onload = async function () {
         try {
@@ -21,6 +22,8 @@
           const message = handleAxiosError(error);
           alert(message);
         }
+
+        document.getElementById('move-to-create-button').addEventListener('click', moveToCreate);
       };
 
       // boards 데이터를 받아와서 테이블에 추가하는 함수
@@ -50,10 +53,6 @@
           tbody.appendChild(row);
         });
       }
-
-      const moveToCreate = function () {
-        window.location.href = 'board-create.html';
-      };
     </script>
     <style>
       th {
@@ -108,7 +107,7 @@
           <span>&gt;|</span>
         </div>
         <div>
-          <button class="create_button" onclick="moveToCreate()">글쓰기</button>
+          <button class="move_to_create_button" id="move-to-create-button">글쓰기</button>
         </div>
       </div>
       <div></div>

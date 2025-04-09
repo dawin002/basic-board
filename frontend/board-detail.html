@@ -5,6 +5,8 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script type="module" defer>
       import { handleAxiosError } from '/utils/handleAxiosError.js';
+      import { moveToList, moveToCreate, moveToUpdate } from '/utils/navigation.js';
+
       let boardNumber;
 
       window.onload = async function () {
@@ -39,18 +41,11 @@
 
           alert(message);
         }
-      };
 
-      const moveToList = function () {
-        window.location.href = '/board-list.html';
-      };
-
-      const moveToUpdate = function () {
-        window.location.href = `/board-update/${boardNumber}`;
-      };
-
-      const moveToCreate = function () {
-        window.location.href = '/board-create.html';
+        document.getElementById('move-to-list-button').addEventListener('click', moveToList);
+        document.getElementById('move-to-update-button').addEventListener('click', () => moveToUpdate(boardNumber));
+        document.getElementById('move-to-create-button').addEventListener('click', moveToCreate);
+        document.getElementById('delete-board-button').addEventListener('click', deleteBoard);
       };
 
       const deleteBoard = async function () {
@@ -100,10 +95,10 @@
           <div class="content" id="content"></div>
         </div>
         <div class="contentsr__tail">
-          <button class="board_button" onclick="moveToList()">전체글</button>
-          <button class="update_button" onclick="moveToUpdate()">수정</button>
-          <button class="delete_button" onclick="deleteBoard()">삭제</button>
-          <button class="create_button" onclick="moveToCreate()">글쓰기</button>
+          <button id="move-to-list-button" class="move_to_list_button">전체글</button>
+          <button id="move-to-update-button" class="move_to_update_button">수정</button>
+          <button id="delete-board-button" class="delete_board_button">삭제</button>
+          <button id="move-to-create-button" class="move_to_create_button">글쓰기</button>
         </div>
       </div>
     </div>

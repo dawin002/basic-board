@@ -5,6 +5,12 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script type="module" defer>
       import { handleAxiosError } from '/utils/handleAxiosError.js';
+      import { moveToDetail, moveToList } from '/utils/navigation.js';
+
+      window.onload = function () {
+        document.getElementById('move-to-list-button').addEventListener('click', moveToList);
+        document.getElementById('create-board-button').addEventListener('click', createBoard);
+      };
 
       const createBoard = async function () {
         try {
@@ -46,14 +52,6 @@
           alert(message);
         }
       };
-
-      const moveToList = function () {
-        window.location.href = '/board-list.html';
-      };
-
-      const moveToDetail = function (boardNumber) {
-        window.location.href = `/board-detail/${boardNumber}`;
-      };
     </script>
   </head>
   <body>
@@ -74,8 +72,8 @@
           <textarea id="content" rows="20" cols="55" placeholder="본문을 입력하세요."></textarea>
         </div>
         <div class="contents__tail">
-          <button class="board_button" onclick="moveToList()">취소</button>
-          <button id="write-button" class="write_button" onclick="createBoard()">등록</button>
+          <button id="move-to-list-button" class="move_to_list_button">취소</button>
+          <button id="create-board-button" class="create_board_button">등록</button>
         </div>
       </div>
     </div>
