@@ -4,7 +4,8 @@
     <title>글쓰기 : 다윈게시판</title>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script type="module" defer>
-      import { handleAxiosError } from '/utils/handleAxiosError.js';
+      import { getAxiosErrorMessage } from '/utils/getAxiosErrorMessage.js';
+      import { handleAxiosErrorSideEffect } from '/utils/handleAxiosErrorSideEffect.js';
       import { moveToDetail, moveToList } from '/utils/navigation.js';
 
       window.onload = function () {
@@ -48,8 +49,9 @@
           const boardNumber = response.data.board.number;
           moveToDetail(boardNumber);
         } catch (error) {
-          const message = handleAxiosError(error);
-          alert(message);
+          const { status, message } = getAxiosErrorMessage(error);
+
+          handleAxiosErrorSideEffect(status, message);
         }
       };
     </script>

@@ -4,7 +4,8 @@
     <title>글 수정하기 : 다윈게시판</title>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script type="module" defer>
-      import { handleAxiosError } from '/utils/handleAxiosError.js';
+      import { getAxiosErrorMessage } from '/utils/getAxiosErrorMessage.js';
+      import { handleAxiosErrorSideEffect } from '/utils/handleAxiosErrorSideEffect.js';
       import { moveToList, moveToDetail } from '/utils/navigation.js';
 
       let boardNumber;
@@ -28,14 +29,11 @@
 
           console.log('게시글 불러옴', board);
         } catch (error) {
-          const message = handleAxiosError(error, (status, message) => {
-            if (status === 404) {
-              alert(message);
-              moveToList();
-            }
-          });
+          const { status, message } = getAxiosErrorMessage(error);
 
-          alert(message);
+          handleAxiosErrorSideEffect(status, message, (status, message) => {
+            if (status === 404) moveToList();
+          });
         }
 
         document.getElementById('move-to-detail-button').addEventListener('click', () => moveToDetail(boardNumber));
@@ -69,17 +67,12 @@
 
           moveToDetail(boardNumber);
         } catch (error) {
-          const message = handleAxiosError(error, (status, message) => {
-            if (status === 404) {
-              alert(message);
-              moveToList();
-            } else if (status === 409) {
-              alert(message);
-              moveToDetail(boardNumber);
-            }
-          });
+          const { status, message } = getAxiosErrorMessage(error);
 
-          alert(message);
+          handleAxiosErrorSideEffect(status, message, (status, message) => {
+            if (status === 404) moveToList();
+            if (status === 409) moveToDetail(boardNumber);
+          });
         }
       };
     </script>
