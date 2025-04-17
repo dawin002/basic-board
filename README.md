@@ -47,18 +47,19 @@
 ┃ ┣ 📜tsconfig.json
 ┃ ┗ 📜yarn.lock
 ┣ 📂frontend
+┃ ┣ 📂js
+┃ ┃ ┗ 📂utils
+┃ ┃ ┃ ┣ 📜getAxiosErrorMessage.js
+┃ ┃ ┃ ┣ 📜handleAxiosErrorSideEffect.js
+┃ ┃ ┃ ┗ 📜navigation.js
 ┃ ┣ 📂nginx
 ┃ ┃ ┗ 📜default.conf
-┃ ┣ 📂utils
-┃ ┃ ┣ 📜getAxiosErrorMessage.js
-┃ ┃ ┣ 📜handleAxiosErrorSideEffect.js
-┃ ┃ ┗ 📜navigation.js
 ┃ ┣ 📜.prettierrc
-┃ ┣ 📜Dockerfile
 ┃ ┣ 📜board-create.html
 ┃ ┣ 📜board-detail.html
 ┃ ┣ 📜board-list.html
-┃ ┗ 📜board-update.html
+┃ ┣ 📜board-update.html
+┃ ┗ 📜Dockerfile
 ┣ 📜.DS_Store
 ┣ 📜.eslintrc.ts
 ┣ 📜.gitignore
