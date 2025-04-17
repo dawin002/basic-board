@@ -47,10 +47,6 @@
 ┃ ┣ 📜tsconfig.json
 ┃ ┗ 📜yarn.lock
 ┣ 📂frontend
-┃ ┣ 📂html
-┃ ┣ 📂js
-┃ ┃ ┣ 📂apis
-┃ ┃ ┗ 📂utils
 ┃ ┣ 📂nginx
 ┃ ┃ ┗ 📜default.conf
 ┃ ┣ 📂utils
