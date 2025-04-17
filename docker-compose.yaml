@@ -11,6 +11,8 @@ services:
       - 3000:3000
     depends_on:
       - my-database
+    networks:
+      - board-network
 
   my-frontend:
     build:
@@ -20,8 +22,18 @@ services:
       - ./frontend:/usr/share/nginx/html
     ports:
       - 5500:80
+    depends_on:
+      - my-backend
+    networks:
+      - board-network
 
   my-database:
     image: mongo:5
     ports:
       - 27017:27017
+    networks:
+      - board-network
+
+networks:
+  board-network:
+    driver: bridge

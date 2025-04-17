@@ -47,11 +47,18 @@
 ┃ ┣ 📜tsconfig.json
 ┃ ┗ 📜yarn.lock
 ┣ 📂frontend
+┃ ┣ 📂css
+┃ ┃ ┣ 📜board-detail.css
+┃ ┃ ┗ 📜board-list.css
 ┃ ┣ 📂js
 ┃ ┃ ┗ 📂utils
 ┃ ┃ ┃ ┣ 📜getAxiosErrorMessage.js
 ┃ ┃ ┃ ┣ 📜handleAxiosErrorSideEffect.js
 ┃ ┃ ┃ ┗ 📜navigation.js
+┃ ┃ ┣ 📜board-create.js
+┃ ┃ ┣ 📜board-detail.js
+┃ ┃ ┣ 📜board-list.js
+┃ ┃ ┗ 📜board-update.js
 ┃ ┣ 📂nginx
 ┃ ┃ ┗ 📜default.conf
 ┃ ┣ 📜.prettierrc
