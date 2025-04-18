@@ -39,7 +39,7 @@ const updateBoard = async function () {
     const title = document.getElementById('title').value;
     const content = document.getElementById('content').value;
 
-    console.log(title, content);
+    console.log('title:', title, ', content:', content);
 
     if (!title.trim()) {
       alert('제목을 입력해주세요.');
