@@ -39,6 +39,8 @@
 ┃ ┃ ┣ 📜get-boards.swagger.ts
 ┃ ┃ ┗ 📜update-board.swagger.ts
 ┃ ┣ 📜.dockerignore
+┃ ┣ 📜.env
+┃ ┣ 📜.env.docker
 ┃ ┣ 📜.eslintrc.ts
 ┃ ┣ 📜.prettierrc
 ┃ ┣ 📜Dockerfile
@@ -51,7 +53,7 @@
 ┃ ┃ ┣ 📜board-detail.css
 ┃ ┃ ┗ 📜board-list.css
 ┃ ┣ 📂js
-┃ ┃ ┗ 📂utils
+┃ ┃ ┣ 📂utils
 ┃ ┃ ┃ ┣ 📜getAxiosErrorMessage.js
 ┃ ┃ ┃ ┣ 📜handleAxiosErrorSideEffect.js
 ┃ ┃ ┃ ┗ 📜navigation.js
@@ -62,12 +64,13 @@
 ┃ ┣ 📂nginx
 ┃ ┃ ┗ 📜default.conf
 ┃ ┣ 📜.prettierrc
+┃ ┣ 📜Dockerfile
 ┃ ┣ 📜board-create.html
 ┃ ┣ 📜board-detail.html
 ┃ ┣ 📜board-list.html
-┃ ┣ 📜board-update.html
-┃ ┗ 📜Dockerfile
+┃ ┗ 📜board-update.html
 ┣ 📜.DS_Store
+┣ 📜.env
 ┣ 📜.eslintrc.ts
 ┣ 📜.gitignore
 ┣ 📜.prettierrc

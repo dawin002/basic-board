@@ -5,7 +5,7 @@ import { moveToCreate } from './utils/navigation.js';
 window.onload = async function () {
   try {
     // 백엔드에서 게시글 목록을 받아옴
-    const response = await axios.get('http://localhost:3000/api/boards');
+    const response = await axios.get('/api/boards');
     const boards = response.data; // 받은 데이터를 boards 변수에 저장
 
     boards.sort((a, b) => b.number - a.number);

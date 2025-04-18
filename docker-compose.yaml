@@ -28,8 +28,6 @@ services:
       - my-backend
     networks:
       - board-network
-    env_file:
-      - ./frontend/.env.docker
 
   my-database:
     image: mongo:5
