@@ -23,7 +23,7 @@ services:
     volumes:
       - ./frontend:/usr/share/nginx/html
     ports:
-      - 5500:80
+      - ${FRONTEND_PORT}:80
     depends_on:
       - my-backend
     networks:
@@ -32,7 +32,9 @@ services:
   my-database:
     image: mongo:5
     ports:
-      - 27017:27017
+      - ${DATABASE_PORT}:27017
+    environment:
+      MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
     networks:
       - board-network
 
