@@ -88,3 +88,24 @@
 7. 수정
 
 - [x] 게시판 조회 화면의 URL 설계 방식을 query parameter에서 path parameter로 바꾸기
+
+배포
+
+1. AWS 배포 사전 세팅
+
+- [x] AWS 계정 준비
+- [ ] EC2 키 페어(.pem 파일) 다운로드
+- [ ] EC2 인스턴스 생성 (Amazon Linux 2 / Ubuntu)
+- [ ] 보안그룹 인바운드 설정 (SSH, HTTP, 필요한 포트)
+- [ ] 로컬 프로젝트 폴더 준비 (지금 상태면 OK)
+- [ ] .env 파일 서버용 버전 준비
+
+2. AWS EC2 배포
+
+- [ ] AWS EC2 인스턴스 생성
+- [ ] SSH 접속
+- [ ] Docker, Docker Compose 설치
+- [ ] 프로젝트 파일 EC2로 전송
+- [ ] EC2에서 환경변수 파일(.env) 수정
+- [ ] docker-compose up
+- [ ] Nginx reverse proxy (선택)
