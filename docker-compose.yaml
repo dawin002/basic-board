@@ -15,6 +15,7 @@ services:
       - board-network
     env_file:
       - ./backend/.env.docker
+    restart: always
 
   my-frontend:
     build:
@@ -28,6 +29,7 @@ services:
       - my-backend
     networks:
       - board-network
+    restart: always
 
   my-database:
     image: mongo:5
@@ -37,6 +39,7 @@ services:
       MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
     networks:
       - board-network
+    restart: always
 
 networks:
   board-network:
