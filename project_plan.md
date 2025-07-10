@@ -109,3 +109,4 @@
 - [x] EC2에서 환경변수 파일(.env) 수정
 - [x] docker-compose up
 - [ ] Nginx reverse proxy (선택)
+      .
