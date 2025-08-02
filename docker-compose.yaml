@@ -35,6 +35,8 @@ services:
     image: mongo:5
     ports:
       - ${DATABASE_PORT}:27017
+    volumes:
+      - mongo_data:/data/db
     environment:
       MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
     networks:
@@ -44,3 +46,6 @@ services:
 networks:
   board-network:
     driver: bridge
+
+volumes:
+  mongo-data:
