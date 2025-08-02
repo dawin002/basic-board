@@ -28,5 +28,6 @@ jobs:
             cd /home/ec2-user/basic-board
             git pull origin main
             docker-compose down
+            docker system prune -af --volumes
             docker-compose up -d --build
           EOF
