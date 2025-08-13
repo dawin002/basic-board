@@ -1,4 +1,7 @@
 📦basic-board
+┣ 📂.github
+┃ ┗ 📂workflows
+┃ ┃ ┗ 📜deploy.yml
 ┣ 📂.vscode
 ┃ ┗ 📜settings.json
 ┣ 📂backend
@@ -70,6 +73,7 @@
 ┃ ┣ 📜board-list.html
 ┃ ┗ 📜board-update.html
 ┣ 📜.DS_Store
+┣ 📜.dockerignore
 ┣ 📜.env
 ┣ 📜.eslintrc.ts
 ┣ 📜.gitignore
